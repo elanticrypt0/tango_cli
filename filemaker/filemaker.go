@@ -3,12 +3,12 @@ package filemaker
 import "strings"
 
 type FileMaker struct {
-	Filename         string
-	Filetypes        []string
-	Filenames        []string
-	RootPath         string
-	ForcedMode       bool
-	TemplateSelected string
+	Filename         string   `json:"filename"`
+	Filetypes        []string `json:"filetypes"`
+	Filenames        []string `json:"filenames"`
+	RootPath         string   `json:"root_path"`
+	ForcedMode       bool     `json:"forced_mode"`
+	TemplateSelected string   `json:"template_selected"`
 }
 
 func New() *FileMaker {
