@@ -151,11 +151,13 @@ import (
 
 type $SC$ struct {
 	gorm.Model
-	Name string
-}
+	// add backticks in tags here
+	Name string json:"name" param:"name" query:"name" form:"name"
+
 
 type $SC$DTO struct {
-	Name string
+	// add backticks in tags here
+	Name string json:"name" param:"name" query:"name" form:"name"
 }
 
 type $SC$Counter struct {
