@@ -51,6 +51,8 @@ func main() {
 		fmt.Println("Mode: ", os.Args[2])
 		fmt.Println("Execuit it!")
 		fm.MakeIt()
+		fmt.Println("-----------------")
+		fmt.Println("Now just add the routes call to the app/routes/setupapproutes.go")
 	}
 
 }
