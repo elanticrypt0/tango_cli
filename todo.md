@@ -2,18 +2,18 @@
 
 1. Leer los comandos y ejecutar:
 
-1.1 Al leer un nombre lo que hace es: ponerlo en minúsculas y hacerla plural y singular
+1.1[x] Al leer un nombre lo que hace es: ponerlo en minúsculas y hacerla plural y singular
 
 2.0 Antes de crear cualquier de estas cosas se fija si el archivo existe. Si existe pregunta si querés sobre escribirlo o pide que se le ponga una -f
 
-2. Crear un modelo
+2.[x] Crear un modelo
 
-3. Crear un feature
+3.[x] Crear un feature
 
-4. Crear las rutas
+4.[x] Crear las rutas
 
-5. Crear las vistas básicas (templ)
+5.[x] Crear las vistas básicas (templ)
 
 6. Crear las vistas (los archivos de menus y esas cosas)
 
-7. ejecuta todo esto.
+7.[x] ejecuta todo esto.

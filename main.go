@@ -1,47 +1,43 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"tango_cli/filemaker"
-	"tango_cli/parser"
 )
 
 func main() {
 
 	paramsSetted := 0
-	//todo
 
-	//1. leer el comando
+	//Example: tango_cli photo basic f
 
-	//2. leer el nombre del paquete o elemento
-
-	//3. Este si tiene CRUD te tira un crud. si tiene FULL te tira un full. Sino se pone que se quiere crear (feature, model,route,view)
-
-	//3. leer el modo (forced)
-
-	p := parser.New()
-	fm := filemaker.New()
+	var fm *filemaker.FileMaker
 
 	if len(os.Args) > 1 {
 
-		fm.SetRootPath(os.Args[0])
-		p.Read(os.Args[1])
+		fm = filemaker.New(os.Args[1])
+		fmt.Println(os.Args[0])
+		//fm.SetRootPath(os.Args[0])
+		fm.SetRootPath("")
+		fm.SetAppDir("app")
+		//p.Read(os.Args[1])
 
-		paramsSetted = paramsSetted + 2
+		paramsSetted = paramsSetted + 1
 
 	}
 
 	if len(os.Args) >= 2 {
 
 		// aca define que va a crear
-
+		fm.SetMode(os.Args[2])
 		paramsSetted = paramsSetted + 1
 	}
 
-	if len(os.Args) >= 3 {
+	if len(os.Args) >= 4 {
 
 		// aca define el modo SI es forzado o no
-
+		fmt.Println("Forced Mode")
 		fm.SetForcedMode(true)
 
 		paramsSetted = paramsSetted + 1
@@ -49,8 +45,12 @@ func main() {
 
 	// aca ejecuta todo
 
-	if paramsSetted > 3 {
+	if paramsSetted >= 2 {
 
+		fmt.Println("Making: ", os.Args[1])
+		fmt.Println("Mode: ", os.Args[2])
+		fmt.Println("Execuit it!")
+		fm.MakeIt()
 	}
 
 }

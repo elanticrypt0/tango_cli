@@ -6,7 +6,7 @@ import (
 )
 
 type Parser struct {
-	nameInput    string `json:"name_input"`
+	nameInput    string
 	NamePlural   string `json:"name_plural"`
 	NameSingular string `json:"name_singular"`
 	FirstChar    string `json:"first_char"`
