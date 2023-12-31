@@ -124,7 +124,6 @@ func (fm *FileMaker) selectTemplate(template string) {
 }
 
 func (fm *FileMaker) saveFile(filepath string, content string) bool {
-	fmt.Println(filepath)
 	if err := os.WriteFile(filepath, []byte(content), fm.FilePerms); err != nil {
 		fmt.Println(err)
 		return false

@@ -18,10 +18,8 @@ func main() {
 
 		fm = filemaker.New(os.Args[1])
 		fmt.Println(os.Args[0])
-		//fm.SetRootPath(os.Args[0])
 		fm.SetRootPath("")
 		fm.SetAppDir("app")
-		//p.Read(os.Args[1])
 
 		paramsSetted = paramsSetted + 1
 
@@ -49,10 +47,11 @@ func main() {
 
 		fmt.Println("Making: ", os.Args[1])
 		fmt.Println("Mode: ", os.Args[2])
-		fmt.Println("Execuit it!")
+		fmt.Println("Making files...")
 		fm.MakeIt()
 		fmt.Println("-----------------")
-		fmt.Println("Now just add the routes call to the app/routes/setupapproutes.go")
+		fmt.Println("- Check the model to add backticks to tags")
+		fmt.Println("- Now just add the routes call to the app/routes/setupapproutes.go")
 	}
 
 }
