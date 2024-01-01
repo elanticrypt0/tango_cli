@@ -10,7 +10,7 @@ func TestFileMakerSetRoot(t *testing.T) {
 
 	fm := filemaker.New("app")
 
-	fm.SetRootPath()
+	fm.SetRootPath("")
 
 	gotBuffer := strings.Split(fm.RootPath, "/")
 	path := "/tmp/randomfolder/other"
@@ -30,7 +30,7 @@ func TestFileMakerFileNotExists(t *testing.T) {
 
 	fm := filemaker.New("app")
 
-	fm.SetRootPath()
+	fm.SetRootPath("")
 
 	filepath := "app/models/category.go"
 

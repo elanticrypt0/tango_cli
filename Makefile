@@ -5,6 +5,7 @@ BUILD_DIR_WIN=./build/windows
 
 dev:
 	go run .
+
 test:
 	cd tests
 	go test 

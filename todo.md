@@ -14,6 +14,6 @@
 
 5.[x] Crear las vistas básicas (templ)
 
-6. Crear las vistas (los archivos de menus y esas cosas)
+6.[x] Crear las vistas (los archivos de menus, tablas y formularios)
 
 7.[x] ejecuta todo esto.
