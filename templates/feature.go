@@ -27,7 +27,7 @@ func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	$FL$ := models.New$SC$()
 	$SL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
 	if $SL$ != nil {
-		return utils.Render(c, views.$PC$ShowOne(tapp.GetTitleAndVersion(), *$SL$))
+		return utils.Render(ctx, views.$PC$ShowOne(tapp.GetTitleAndVersion(), *$SL$))
 	} else {
 		return ctx.Redirect(http.StatusMovedPermanently, "/404")
 	}
@@ -46,9 +46,9 @@ func FindAll$PC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	$FL$Buf, _ := $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
 
 	if $FL$Buf != nil {
-		return utils.Render(c, views.$PC$ShowList(tapp.GetTitleAndVersion(), *$FL$Buf, *pagination))
+		return utils.Render(ctx, views.$PC$ShowList(tapp.GetTitleAndVersion(), *$FL$Buf, *pagination))
 	}else{
-		return utils.Render(c, views.$PC$ShowListEmpty(tapp.GetTitleAndVersion()))
+		return utils.Render(ctx, views.$PC$ShowListEmpty(tapp.GetTitleAndVersion()))
 	}
 
 }
@@ -57,11 +57,11 @@ func ShowForm$SC$(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 	$FL$ := models.New$SC$()
 
 	if is_new {
-		return utils.Render(c, views.$PC$FormCreate(tapp.GetTitleAndVersion()))
+		return utils.Render(ctx, views.$PC$FormCreate(tapp.GetTitleAndVersion()))
 	} else {
 		id, _ := strconv.Atoi(ctx.Param("id"))
 		$FL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
-		return utils.Render(c, views.$PC$FormUpdate(tapp.GetTitleAndVersion(), $FL$))
+		return utils.Render(ctx, views.$PC$FormUpdate(tapp.GetTitleAndVersion(), $FL$))
 	}
 }
 
