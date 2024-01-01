@@ -155,10 +155,21 @@ templ $PC$($PL$ []models.$SC$,pagination pagination.Pagination){
 }
 
 templ $PC$Empty(){
-
-	<div>
-	 <h1>No items</h1>
-	</div>
+<div class="">
+    <div class="py-8">
+        <div class="flex flex-row justify-between w-full mb-1 sm:mb-0">
+            <h2 class="text-2xl leading-tight">
+                $PC$
+            </h2>
+            <div class="text-end">
+                @menus.$PC$()
+            </div>
+        </div>
+    	<div>
+            <h1>No items</h1>
+    	</div>
+    </div>
+</div>
 
 }
 	`
