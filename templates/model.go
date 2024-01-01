@@ -4,7 +4,9 @@ func (t *Templates) Model() string {
 
 	t.setReplacements()
 
-	template := `
+	var template string
+
+	template = `
 package models
 
 import (
@@ -16,14 +18,16 @@ import (
 
 type $SC$ struct {
 	gorm.Model
-	// add backticks in tags here
-	Name string json:"name" param:"name" query:"name" form:"name"
+`
+	template += "Name string `json:\"name\" param:\"name\" query:\"name\" form:\"name\"`"
 
+	template += `
 }
 
 type $SC$DTO struct {
-	// add backticks in tags here
-	Name string json:"name" param:"name" query:"name" form:"name"
+`
+	template += "Name string `json:\"name\" param:\"name\" query:\"name\" form:\"name\"`"
+	template += `
 }
 
 type $SC$Counter struct {
