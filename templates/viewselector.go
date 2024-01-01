@@ -1,6 +1,6 @@
 package templates
 
-func (t *Templates) View() string {
+func (t *Templates) ViewSelector() string {
 	t.setReplacements()
 
 	template := `
@@ -35,15 +35,15 @@ templ $PC$ShowOne(appTitle string,$FL$ models.$SC$){
     }
 }
 
-templ $PC$FormCreate(appTitle string){
+templ $PC$FormCreate(appTitle string,list *[]models.$SC$){
     @layouts.Default(appTitle){
-        @forms.$SC$("/$PL$/create","")
+        @forms.$SC$("/$PL$/create","",$SC$,list)
     }
 }
 
-templ $PC$FormUpdate(appTitle string,$FL$ *models.$SC$){
+templ $PC$FormUpdate(appTitle string,$FL$ *models.$SC$,list *[]models.$SC$){
     @layouts.Default(appTitle){
-        @forms.$SC$("/$PL$/update/"+$FL$.GetIDAsString(),$FL$)
+        @forms.$SC$Update("/$PL$/update/"+$FL$.GetIDAsString(),$FL$,list)
     }
 }
 

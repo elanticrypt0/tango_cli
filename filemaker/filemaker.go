@@ -102,12 +102,30 @@ func (fm *FileMaker) MakeIt() {
 
 func (fm *FileMaker) GetFilePath(directory, extension string, isPlural bool) string {
 
+	filename := fm.GetFilePathFilename("", "", isPlural)
+	return fm.RootPath + fm.AppDir + "/" + directory + "/" + filename + "." + extension
+}
+
+func (fm *FileMaker) GetFilePathTitleFixs(directory, prefix, posfix, extension string, isPlural bool) string {
+
+	filename := fm.GetFilePathFilename(prefix, posfix, isPlural)
+
+	return fm.RootPath + fm.AppDir + "/" + directory + "/" + filename + "." + extension
+}
+
+func (fm *FileMaker) GetFilePathFilename(prefix, posfix string, isPlural bool) string {
+
 	filename := fm.Parser.NameSingular
 	if isPlural {
 		filename = fm.Parser.NamePlural
 	}
-
-	return fm.RootPath + fm.AppDir + "/" + directory + "/" + filename + "." + extension
+	if prefix != "" {
+		filename = prefix + filename
+	}
+	if posfix != "" {
+		filename = filename + posfix
+	}
+	return filename
 }
 
 func (fm *FileMaker) selectTemplate(template string) {
@@ -128,6 +146,8 @@ func (fm *FileMaker) selectTemplate(template string) {
 func (fm *FileMaker) selectFullTemplate(template string) {
 
 	switch template {
+	case "featureselector":
+		fm.TemplateSelected = fm.Templates.FeatureSelector()
 	case "table":
 		fm.TemplateSelected = fm.Templates.ViewsFullTable()
 	case "menu":
@@ -136,6 +156,8 @@ func (fm *FileMaker) selectFullTemplate(template string) {
 		fm.TemplateSelected = fm.Templates.ViewsFullForms()
 	case "formwithselector":
 		fm.TemplateSelected = fm.Templates.ViewsFullFormsWithSelector()
+	case "viewselector":
+		fm.TemplateSelected = fm.Templates.ViewSelector()
 	case "selector":
 		fm.TemplateSelected = fm.Templates.ViewsFullSelector()
 	default:
@@ -162,7 +184,16 @@ func (fm *FileMaker) builder(directory, extension string, isPlural bool) {
 	} else {
 		fmt.Println("No hay existe ese template de archivo")
 	}
+}
 
+func (fm *FileMaker) builderWithFilenameFixes(directory, prefix, posfix, extension string, isPlural bool) {
+	filepath := fm.GetFilePathTitleFixs(directory, prefix, posfix, extension, isPlural)
+	if fm.TemplateSelected != "" {
+		// Creo el archivo
+		fm.saveFile(filepath, fm.TemplateSelected)
+	} else {
+		fmt.Println("No hay existe ese template de archivo")
+	}
 }
 
 func (fm *FileMaker) buildModeBasic() {
@@ -193,8 +224,17 @@ func (fm *FileMaker) buildModeFull() {
 
 func (fm *FileMaker) buildModeFullWithSelector() {
 
-	fm.buildModeBasic()
-	fm.selectTemplate("view")
+	// model
+	fm.selectTemplate("model")
+	fm.builder("models", "go", false)
+	// feature
+	fm.selectFullTemplate("featureselector")
+	fm.builder("features", "go", true)
+	// update
+	fm.selectTemplate("route")
+	fm.builder("routes", "go", true)
+	// view selector
+	fm.selectFullTemplate("viewselector")
 	fm.builder("views", "templ", true)
 	// menu
 	fm.selectFullTemplate("menu")
@@ -207,5 +247,9 @@ func (fm *FileMaker) buildModeFullWithSelector() {
 	fm.builder("views/tables", "templ", true)
 	// selector
 	fm.selectFullTemplate("selector")
-	fm.builder("views/components", "templ", true)
+	fm.builderWithFilenameFixes("views/components", "selector_", "", "templ", true)
+	// selector update
+	fm.selectFullTemplate("selector")
+	fm.builderWithFilenameFixes("views/components", "selector_", "_edit", "templ", true)
+
 }

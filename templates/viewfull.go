@@ -28,11 +28,11 @@ func (t *Templates) ViewsFullForms() string {
 	template := `
 package forms
 
-templ $SC$(action string,val string){
+templ $SC$(action string,item models.$SC$){
     <form class="flex flex-col justify-center w-3/4 max-w-sm space-y-3 md:flex-row md:w-full md:space-x-3 md:space-y-0" action={ templ.URL(action) } method="post">
         <div class=" relative ">
             <input type="text" id="&quot;form-subscribe-Subscribe" class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-            name="name" placeholder="Nombre..." value={val}/>
+            name="name" placeholder="Nombre..." value={item.Name}/>
         </div>
         <button class="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200" type="submit">
             Guardar
@@ -59,18 +59,47 @@ import(
     "github.com/k23dev/tango/app/models"
 )
 
-templ $SC$(action ,name string,selectorList []models.$SC$){
+templ $SC$(action ,item models.$SC$,selectorList []models.$SC$){
     <form class="flex flex-col justify-center w-3/4 max-w-sm space-y-3 md:flex-row md:w-full md:space-x-3 md:space-y-0" action={ templ.URL(action) } method="post">
         <div class=" relative ">
             <input type="text" id="&quot;form-subscribe-Subscribe" class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-            name="name" placeholder="Nombre..." value={name}/>
-        </div>
-        <div class=" relative ">
-            <input type="text" id="&quot;form-subscribe-Subscribe" class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-            name="fvalue" placeholder="Dato..." value={fvalue}/>
+            name="name" placeholder="Nombre..." value={item.Name}/>
         </div>
         // Selector component $PC$
         @components.Selector$SC$(selectorList)
+        <button class="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200" type="submit">
+            Guardar
+        </button>
+        <a href="/tangas_fields/" class="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-red-600 rounded-lg shadow-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-200 text-center">
+            Cancelar
+        </a>
+    </form>
+}
+	`
+
+	return t.Replacements.Replace(template)
+}
+
+func (t *Templates) ViewsFullFormsWithSelectorUpdate() string {
+
+	t.setReplacements()
+
+	template := `
+package forms
+
+import(
+    "github.com/k23dev/tango/app/views/components"
+    "github.com/k23dev/tango/app/models"
+)
+
+templ $SC$Update(action ,item models.$SC$,selectorList []models.$SC$){
+    <form class="flex flex-col justify-center w-3/4 max-w-sm space-y-3 md:flex-row md:w-full md:space-x-3 md:space-y-0" action={ templ.URL(action) } method="post">
+        <div class=" relative ">
+            <input type="text" id="&quot;form-subscribe-Subscribe" class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+            name="name" placeholder="Nombre..." value={item.Name}/>
+        </div>
+        // Selector component $PC$
+        @components.Selector$SC$(selectorList,item.ID)
         <button class="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200" type="submit">
             Guardar
         </button>
