@@ -40,7 +40,7 @@ func FindAll$PC$(c echo.Context, tapp *webcore.TangoApp) error {
 		currentPage, _ = strconv.Atoi(queryPage)
 	}
 
-	$FL$ := models.New$SC$
+	$FL$ := models.New$SC$()
 	counter, _ := $FL$.Count(tapp.App.DB.Primary)
 	pagination := pagination.NewPagination(currentPage, itemsPerPage, counter)
 	$FL$Buf, _ := $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
