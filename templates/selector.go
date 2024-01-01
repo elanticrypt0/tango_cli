@@ -8,7 +8,7 @@ func (t *Templates) ViewsFullSelector() string {
 package components
 
 import(
-    "github.com/k23dev/tango/models"
+    "github.com/k23dev/tango/app/models"
 )
 
 templ Selector$SC$(list []models.$SC$){
@@ -28,7 +28,7 @@ templ Selector$SC$(list []models.$SC$){
 
 }
 
-func (t *Templates) ViewsFullSelectorEdit() string {
+func (t *Templates) ViewsFullSelectorUpdate() string {
 
 	t.setReplacements()
 
@@ -36,10 +36,10 @@ func (t *Templates) ViewsFullSelectorEdit() string {
 package components
 
 import(
-    "github.com/k23dev/tango/models"
+    "github.com/k23dev/tango/app/models"
 )
 
-templ Selector$SC$_edit(list []models.$SC$,currentSelectedID int){
+templ Selector$SC$_update(list []models.$SC$,currentSelectedID uint){
 
 <label class="text-gray-700" for="item_id">
     $PL$

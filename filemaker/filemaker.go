@@ -156,10 +156,14 @@ func (fm *FileMaker) selectFullTemplate(template string) {
 		fm.TemplateSelected = fm.Templates.ViewsFullForms()
 	case "formwithselector":
 		fm.TemplateSelected = fm.Templates.ViewsFullFormsWithSelector()
+	case "formwithselectorupdate":
+		fm.TemplateSelected = fm.Templates.ViewsFullFormsWithSelectorUpdate()
 	case "viewselector":
 		fm.TemplateSelected = fm.Templates.ViewSelector()
 	case "selector":
 		fm.TemplateSelected = fm.Templates.ViewsFullSelector()
+	case "selectorupdate":
+		fm.TemplateSelected = fm.Templates.ViewsFullSelectorUpdate()
 	default:
 		fm.TemplateSelected = ""
 	}
@@ -242,6 +246,9 @@ func (fm *FileMaker) buildModeFullWithSelector() {
 	// forms
 	fm.selectFullTemplate("formwithselector")
 	fm.builder("views/forms", "templ", true)
+	// form update
+	fm.selectFullTemplate("formwithselectorupdate")
+	fm.builderWithFilenameFixes("views/forms", "", "_update", "templ", true)
 	// tabla
 	fm.selectFullTemplate("table")
 	fm.builder("views/tables", "templ", true)
@@ -249,7 +256,7 @@ func (fm *FileMaker) buildModeFullWithSelector() {
 	fm.selectFullTemplate("selector")
 	fm.builderWithFilenameFixes("views/components", "selector_", "", "templ", true)
 	// selector update
-	fm.selectFullTemplate("selector")
-	fm.builderWithFilenameFixes("views/components", "selector_", "_edit", "templ", true)
+	fm.selectFullTemplate("selectorupdate")
+	fm.builderWithFilenameFixes("views/components", "selector_", "_update", "templ", true)
 
 }

@@ -37,13 +37,13 @@ templ $PC$ShowOne(appTitle string,$FL$ models.$SC$){
 
 templ $PC$FormCreate(appTitle string,list *[]models.$SC$){
     @layouts.Default(appTitle){
-        @forms.$SC$("/$PL$/create","",$SC$,list)
+        @forms.$SC$("/$PL$/create",*list)
     }
 }
 
 templ $PC$FormUpdate(appTitle string,$FL$ *models.$SC$,list *[]models.$SC$){
     @layouts.Default(appTitle){
-        @forms.$SC$Update("/$PL$/update/"+$FL$.GetIDAsString(),$FL$,list)
+        @forms.$SC$Update("/$PL$/update/"+$FL$.GetIDAsString(),*$FL$,*list)
     }
 }
 

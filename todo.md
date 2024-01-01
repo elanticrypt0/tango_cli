@@ -19,3 +19,7 @@
 7.[x] ejecuta todo esto.
 
 8.[] Crear dos paquetes básicos (categories y posts) que posts tenga una relación con categorías
+
+9.[] Refactor de filemaker: Agregarle campos como prefijo y subfijo para hacer más sencillo la creción de archivos y no andar pasando tanto por variables
+
+10.[] Refactorizar el el código de templates. separándolo por archivos por cada uno de los templates
