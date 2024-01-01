@@ -8,6 +8,8 @@ import (
 
 func main() {
 
+	appBanner()
+
 	paramsSetted := 0
 
 	//Example: tango_cli photo basic f
@@ -53,5 +55,22 @@ func main() {
 		fmt.Println("- Add the routes call to the app/routes/setupapproutes.go")
 		fmt.Println("- Add the name on the main menu at app/views/nav.temp")
 	}
+
+}
+
+func appBanner() {
+
+	fmt.Println(" ### ### ### ####")
+	fmt.Println(" ### ### ### ####")
+	fmt.Println("    TANGO_CLI    ")
+	fmt.Println(" ### ### ### ####")
+	fmt.Println(" ### ### ### ####")
+	fmt.Println("")
+	fmt.Println("Options:")
+	fmt.Println("- basic: Route, Feature, Model")
+	fmt.Println("- full: Route, Feature, Model, View")
+	fmt.Println("- fullWithselector: Route, Feature, Model, View, Selector")
+	fmt.Println("")
+	fmt.Println("e.g. [NAME] [MODE] [(optional)FORCED_MODE]")
 
 }

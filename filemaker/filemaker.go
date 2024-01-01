@@ -132,6 +132,8 @@ func (fm *FileMaker) selectFullTemplate(template string) {
 		fm.TemplateSelected = fm.Templates.ViewsFullMenu()
 	case "form":
 		fm.TemplateSelected = fm.Templates.ViewsFullForms()
+	case "selector":
+		fm.TemplateSelected = fm.Templates.ViewsFullSelector()
 	default:
 		fm.TemplateSelected = ""
 	}
@@ -183,4 +185,23 @@ func (fm *FileMaker) buildModeFull() {
 	// tabla
 	fm.selectFullTemplate("table")
 	fm.builder("views/tables", "templ", true)
+}
+
+func (fm *FileMaker) buildModeFullWithSelector() {
+
+	fm.buildModeBasic()
+	fm.selectTemplate("view")
+	fm.builder("views", "templ", true)
+	// menu
+	fm.selectFullTemplate("menu")
+	fm.builder("views/menus", "templ", true)
+	// forms
+	fm.selectFullTemplate("form")
+	fm.builder("views/forms", "templ", true)
+	// tabla
+	fm.selectFullTemplate("table")
+	fm.builder("views/tables", "templ", true)
+	// selector
+	fm.selectFullTemplate("selector")
+	fm.builder("views/components", "templ", true)
 }

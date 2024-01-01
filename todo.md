@@ -17,3 +17,5 @@
 6.[x] Crear las vistas (los archivos de menus, tablas y formularios)
 
 7.[x] ejecuta todo esto.
+
+8.[] Crear dos paquetes básicos (categories y posts) que posts tenga una relación con categorías
