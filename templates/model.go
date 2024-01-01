@@ -38,13 +38,13 @@ func New$SC$() *$SC$ {
 	return &$SC${}
 }
 
-func (c *$SC$) Count(db *gorm.DB) (int, error) {
+func ($FL$ *$SC$) Count(db *gorm.DB) (int, error) {
 	counter := &$SC$Counter{}
 	db.Model(&$SC${}).Select("count(ID) as total").Find(&counter)
 	return counter.Total, nil
 }
 
-func (c *$SC$) FindOne(db *gorm.DB, id int) (*$SC$, error) {
+func ($FL$ *$SC$) FindOne(db *gorm.DB, id int) (*$SC$, error) {
 	var $SL$ $SC$
 	db.First(&$SL$, id)
 	if $SL$.ID == 0 {
@@ -57,7 +57,7 @@ func (c *$SC$) FindOne(db *gorm.DB, id int) (*$SC$, error) {
 	return &$SL$, nil
 }
 
-func (c *$SC$) FindAll(db *gorm.DB) ([]$SC$, error) {
+func ($FL$ *$SC$) FindAll(db *gorm.DB) ([]$SC$, error) {
 	var $PL$ []$SC$
 	db.Order("created_at ASC").Find(&$PL$)
 	if len($PL$) <= 0 {
@@ -70,7 +70,7 @@ func (c *$SC$) FindAll(db *gorm.DB) ([]$SC$, error) {
 	return $PL$, nil
 }
 
-func (c *$SC$) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage int) (*[]$SC$, error) {
+func ($FL$ *$SC$) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage int) (*[]$SC$, error) {
 	$PL$ := []$SC${}
 
 	db.Order("created_at ASC").Limit(itemsPerPage).Offset(itemsPerPage * currentPage).Find(&$PL$)
@@ -84,7 +84,7 @@ func (c *$SC$) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage int) (*[
 	return &$PL$, nil
 }
 
-func (c *$SC$) Create(db *gorm.DB, name string) (*$SC$, error) {
+func ($FL$ *$SC$) Create(db *gorm.DB, name string) (*$SC$, error) {
 	$SL$ := $SC${
 		Name: name,
 	}
@@ -92,13 +92,13 @@ func (c *$SC$) Create(db *gorm.DB, name string) (*$SC$, error) {
 	return &$SL$, nil
 }
 
-func (c *$SC$) Update(db *gorm.DB, id int, name string) (*$SC$, error) {
+func ($FL$ *$SC$) Update(db *gorm.DB, id int, name string) (*$SC$, error) {
 	db.Model(&$SC${}).Where("ID =?", id).Update("name", name)
-	return c, nil
+	return $FL$, nil
 }
 
-func (c *$SC$) Delete(db *gorm.DB, id int) (*$SC$, error) {
-	$SL$, err := c.FindOne(db, id)
+func ($FL$ *$SC$) Delete(db *gorm.DB, id int) (*$SC$, error) {
+	$SL$, err := $FL$.FindOne(db, id)
 	if err != nil {
 		return nil, err
 	}
@@ -106,8 +106,8 @@ func (c *$SC$) Delete(db *gorm.DB, id int) (*$SC$, error) {
 	return $SL$, nil
 }
 
-func (c *$SC$) GetIDAsString() string {
-	return fmt.Sprintf("%d", c.ID)
+func ($FL$ *$SC$) GetIDAsString() string {
+	return fmt.Sprintf("%d", $FL$.ID)
 }	
 	`
 	return t.Replacements.Replace(template)
