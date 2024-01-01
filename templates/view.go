@@ -21,6 +21,13 @@ templ $PC$ShowList(appTitle string,$PL$ []models.$SC$,pagination pagination.Pagi
 
 }
 
+templ $PC$ShowListEmpty(appTitle string,$PL$ []models.$SC$,pagination pagination.Pagination){
+    @layouts.Default(appTitle){
+        @tables.$PC$Empty()
+    }
+
+}
+
 templ $PC$ShowOne(appTitle string,$FL$ models.$SC$){
     @layouts.Default(appTitle){
         <h1>$SC$</h1>

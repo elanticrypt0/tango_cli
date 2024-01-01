@@ -19,14 +19,14 @@ import (
 type $SC$ struct {
 	gorm.Model
 `
-	template += "Name string `json:\"name\" param:\"name\" query:\"name\" form:\"name\"`"
+	template += "	Name string `json:\"name\" param:\"name\" query:\"name\" form:\"name\"`"
 
 	template += `
 }
 
 type $SC$DTO struct {
 `
-	template += "Name string `json:\"name\" param:\"name\" query:\"name\" form:\"name\"`"
+	template += "	Name string `json:\"name\" param:\"name\" query:\"name\" form:\"name\"`"
 	template += `
 }
 

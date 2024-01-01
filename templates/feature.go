@@ -45,7 +45,12 @@ func FindAll$PC$(c echo.Context, tapp *webcore.TangoApp) error {
 	pagination := pagination.NewPagination(currentPage, itemsPerPage, counter)
 	$FL$Buf, _ := $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
 
-	return utils.Render(c, views.$PC$ShowList(tapp.GetTitleAndVersion(), *$FL$Buf, *pagination))
+	if $FL$Buf != nil {
+		return utils.Render(c, views.$PC$ShowList(tapp.GetTitleAndVersion(), *$FL$Buf, *pagination))
+	}else{
+		return utils.Render(c, views.$PC$ShowListEmpty(tapp.GetTitleAndVersion()))
+	}
+
 }
 
 func ShowForm$SC$(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {

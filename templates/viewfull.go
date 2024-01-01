@@ -153,6 +153,14 @@ templ $PC$($PL$ []models.$SC$,pagination pagination.Pagination){
         </div>
 </div>
 }
+
+templ $PC$Empty(){
+
+	<div>
+	 <h1>No items</h1>
+	</div>
+
+}
 	`
 
 	return t.Replacements.Replace(template)
