@@ -16,31 +16,31 @@ func $PL$Routes(tapp *webcore.TangoApp, rootPath *echo.Group) {
 	$PL$ := rootPath.Group("/$PL$/")
 
 	$PL$.GET("", func(ctx echo.Context) error {
-		return features.FindAll$PC$(c, tapp)
+		return features.FindAll$PC$(ctx, tapp)
 	})
 
 	$PL$.GET(":id", func(ctx echo.Context) error {
-		return features.FindOne$SC$(c, tapp)
+		return features.FindOne$SC$(ctx, tapp)
 	})
 
 	$PL$.GET("new", func(ctx echo.Context) error {
-		return features.ShowForm$SC$(c, tapp, true)
+		return features.ShowForm$SC$(ctx, tapp, true)
 	})
 
 	$PL$.GET("edit/:id", func(ctx echo.Context) error {
-		return features.ShowForm$SC$(c, tapp, false)
+		return features.ShowForm$SC$(ctx, tapp, false)
 	})
 
 	$PL$.POST("create", func(ctx echo.Context) error {
-		return features.Create$SC$(c, tapp)
+		return features.Create$SC$(ctx, tapp)
 	})
 
 	$PL$.POST("update/:id", func(ctx echo.Context) error {
-		return features.Update$SC$(c, tapp)
+		return features.Update$SC$(ctx, tapp)
 	})
 
 	$PL$.GET("delete/:id", func(ctx echo.Context) error {
-		return features.Delete$SC$(c, tapp)
+		return features.Delete$SC$(ctx, tapp)
 	})
 }
 	`

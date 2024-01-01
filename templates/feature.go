@@ -22,19 +22,19 @@ import (
 
 
 func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, _ := strconv.Atoi(ctx.Param("id"))
 
 	$FL$ := models.New$SC$()
 	$SL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
 	if $SL$ != nil {
 		return utils.Render(c, views.$PC$ShowOne(tapp.GetTitleAndVersion(), *$SL$))
 	} else {
-		return c.Redirect(http.StatusMovedPermanently, "/404")
+		return ctx.Redirect(http.StatusMovedPermanently, "/404")
 	}
 }
 
 func FindAll$PC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	queryPage := c.Param("page")
+	queryPage := ctx.Param("page")
 	var currentPage = 0
 	if queryPage != "" {
 		currentPage, _ = strconv.Atoi(queryPage)
@@ -59,7 +59,7 @@ func ShowForm$SC$(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 	if is_new {
 		return utils.Render(c, views.$PC$FormCreate(tapp.GetTitleAndVersion()))
 	} else {
-		id, _ := strconv.Atoi(c.Param("id"))
+		id, _ := strconv.Atoi(ctx.Param("id"))
 		$FL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
 		return utils.Render(c, views.$PC$FormUpdate(tapp.GetTitleAndVersion(), $FL$))
 	}
@@ -68,23 +68,23 @@ func ShowForm$SC$(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 func Create$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	// get the incoming values
 	$FL$DTO := models.$SC$DTO{}
-	if err := c.Bind(&$FL$DTO); err != nil {
-		return c.String(http.StatusBadRequest, "Bad request")
+	if err := ctx.Bind(&$FL$DTO); err != nil {
+		return ctx.String(http.StatusBadRequest, "Bad request")
 	}
 
 	$FL$ := models.New$SC$()
 	$FL$.Create(tapp.App.DB.Primary, $FL$DTO.Name)
 
-	return c.Redirect(http.StatusMovedPermanently, "/$PL$/")
+	return ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 
 func Update$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, _ := strconv.Atoi(ctx.Param("id"))
 
 	// get the incoming values
 	$FL$DTO := models.$SC$DTO{}
-	if err := c.Bind(&$FL$DTO); err != nil {
-		return c.String(http.StatusBadRequest, "Bad request")
+	if err := ctx.Bind(&$FL$DTO); err != nil {
+		return ctx.String(http.StatusBadRequest, "Bad request")
 	}
 
 	$FL$ := models.New$SC$()
@@ -92,15 +92,15 @@ func Update$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 
 	$FL$.Update(tapp.App.DB.Primary, id, $FL$.Name)
 
-	return c.Redirect(http.StatusMovedPermanently, "/$PL$/")
+	return ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 
 func Delete$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, _ := strconv.Atoi(ctx.Param("id"))
 	$FL$ := models.New$SC$()
 	$FL$.Delete(tapp.App.DB.Primary, id)
 
-	return c.Redirect(http.StatusMovedPermanently, "/$PL$/")
+	return ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 	`
 	return t.Replacements.Replace(template)
