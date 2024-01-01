@@ -40,12 +40,12 @@ func FindAll$PC$(c echo.Context, tapp *webcore.TangoApp) error {
 		currentPage, _ = strconv.Atoi(queryPage)
 	}
 
-	$FL$ := models.New$SC$()
+	$FL$ := models.New$SC$
 	counter, _ := $FL$.Count(tapp.App.DB.Primary)
 	pagination := pagination.NewPagination(currentPage, itemsPerPage, counter)
-	$FL$, _ := $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
+	$FL$Buf, _ := $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
 
-	return utils.Render(c, views.$PC$ShowList(tapp.GetTitleAndVersion(), *$FL$, *pagination))
+	return utils.Render(c, views.$PC$ShowList(tapp.GetTitleAndVersion(), *$FL$Buf, *pagination))
 }
 
 func ShowForm$SC$(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {
