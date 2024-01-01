@@ -21,7 +21,7 @@ import (
 )
 
 
-func FindOne$SC$(c echo.Context, tapp *webcore.TangoApp) error {
+func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	$FL$ := models.New$SC$()
@@ -33,7 +33,7 @@ func FindOne$SC$(c echo.Context, tapp *webcore.TangoApp) error {
 	}
 }
 
-func FindAll$PC$(c echo.Context, tapp *webcore.TangoApp) error {
+func FindAll$PC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	queryPage := c.Param("page")
 	var currentPage = 0
 	if queryPage != "" {
@@ -53,7 +53,7 @@ func FindAll$PC$(c echo.Context, tapp *webcore.TangoApp) error {
 
 }
 
-func ShowForm$SC$(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {
+func ShowForm$SC$(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 	$FL$ := models.New$SC$()
 
 	if is_new {
@@ -65,7 +65,7 @@ func ShowForm$SC$(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 	}
 }
 
-func Create$SC$(c echo.Context, tapp *webcore.TangoApp) error {
+func Create$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	// get the incoming values
 	$FL$DTO := models.$SC$DTO{}
 	if err := c.Bind(&$FL$DTO); err != nil {
@@ -78,7 +78,7 @@ func Create$SC$(c echo.Context, tapp *webcore.TangoApp) error {
 	return c.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 
-func Update$SC$(c echo.Context, tapp *webcore.TangoApp) error {
+func Update$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	// get the incoming values
@@ -95,7 +95,7 @@ func Update$SC$(c echo.Context, tapp *webcore.TangoApp) error {
 	return c.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 
-func Delete$SC$(c echo.Context, tapp *webcore.TangoApp) error {
+func Delete$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	$FL$ := models.New$SC$()
 	$FL$.Delete(tapp.App.DB.Primary, id)
