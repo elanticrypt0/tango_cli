@@ -40,7 +40,7 @@ func New$SC$() *$SC$ {
 
 func (c *$SC$) Count(db *gorm.DB) (int, error) {
 	counter := &$SC$Counter{}
-	db.Model(&$SC${}).Select("count(ID) as total").Where("delete = ? ", "").Find(&counter)
+	db.Model(&$SC${}).Select("count(ID) as total").Find(&counter)
 	return counter.Total, nil
 }
 
