@@ -64,10 +64,10 @@ templ $PC$($PL$ []models.$SC$,pagination pagination.Pagination){
     <div class="py-8">
         <div class="flex flex-row justify-between w-full mb-1 sm:mb-0">
             <h2 class="text-2xl leading-tight">
-                Categorías
+                $PC$
             </h2>
             <div class="text-end">
-                @menus.Categories()
+                @menus.$PC$()
             </div>
         </div>
             <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
