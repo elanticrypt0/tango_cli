@@ -50,8 +50,8 @@ func main() {
 		fmt.Println("Making files...")
 		fm.MakeIt()
 		fmt.Println("-----------------")
-		fmt.Println("- Check the model to add backticks to tags")
-		fmt.Println("- Now just add the routes call to the app/routes/setupapproutes.go")
+		fmt.Println("- Add the routes call to the app/routes/setupapproutes.go")
+		fmt.Println("- Add the name on the main menu at app/views/nav.temp")
 	}
 
 }
