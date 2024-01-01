@@ -16,7 +16,7 @@ func $PL$Routes(tapp *webcore.TangoApp, rootPath *echo.Group) {
 	$PL$ := rootPath.Group("/$PL$/")
 
 	$PL$.GET("", func(c echo.Context) error {
-		return features.FindAllCategories(c, tapp)
+		return features.FindAll$PC$(c, tapp)
 	})
 
 	$PL$.GET(":id", func(c echo.Context) error {
