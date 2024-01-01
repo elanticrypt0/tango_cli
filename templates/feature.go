@@ -20,7 +20,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-var itemsPerPage = 15
 
 func FindOne$SC$(c echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(c.Param("id"))
@@ -46,18 +45,18 @@ func FindAll$PC$(c echo.Context, tapp *webcore.TangoApp) error {
 	pagination := pagination.NewPagination(currentPage, itemsPerPage, counter)
 	$FL$, _ := $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
 
-	return utils.Render(c, views.$PCShowList(tapp.GetTitleAndVersion(), *$FL$, *pagination))
+	return utils.Render(c, views.$PC$ShowList(tapp.GetTitleAndVersion(), *$FL$, *pagination))
 }
 
 func ShowForm$SC$(c echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 	$FL$ := models.New$SC$()
 
 	if is_new {
-		return utils.Render(c, views.$PCFormCreate(tapp.GetTitleAndVersion()))
+		return utils.Render(c, views.$PC$FormCreate(tapp.GetTitleAndVersion()))
 	} else {
 		id, _ := strconv.Atoi(c.Param("id"))
 		$FL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
-		return utils.Render(c, views.$PCFormUpdate(tapp.GetTitleAndVersion(), $FL$))
+		return utils.Render(c, views.$PC$FormUpdate(tapp.GetTitleAndVersion(), $FL$))
 	}
 }
 
