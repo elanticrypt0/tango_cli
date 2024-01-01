@@ -37,7 +37,7 @@ templ $PC$ShowOne(appTitle string,$FL$ models.$SC$){
 
 templ $PC$FormCreate(appTitle string){
     @layouts.Default(appTitle){
-        @forms.$SC$("/$PL$/create","")
+        @forms.$SC$("/$PL$/create",models.$SC${})
     }
 }
 
