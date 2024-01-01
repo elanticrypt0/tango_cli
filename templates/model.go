@@ -19,6 +19,7 @@ type $SC$ struct {
 	// add backticks in tags here
 	Name string json:"name" param:"name" query:"name" form:"name"
 
+}
 
 type $SC$DTO struct {
 	// add backticks in tags here

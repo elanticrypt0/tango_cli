@@ -28,7 +28,7 @@ func FindOne$SC$(c echo.Context, tapp *webcore.TangoApp) error {
 	$FL$ := models.New$SC$()
 	$SL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
 	if $SL$ != nil {
-		return utils.Render(c, views.$PCShowOne(tapp.GetTitleAndVersion(), *$SL$))
+		return utils.Render(c, views.$PC$ShowOne(tapp.GetTitleAndVersion(), *$SL$))
 	} else {
 		return c.Redirect(http.StatusMovedPermanently, "/404")
 	}
