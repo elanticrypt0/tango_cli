@@ -1,6 +1,6 @@
 package templates
 
-func (t *Templates) Views() string {
+func (t *Templates) View() string {
 	t.setReplacements()
 
 	template := `

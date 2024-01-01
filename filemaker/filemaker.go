@@ -93,8 +93,6 @@ func (fm *FileMaker) MakeIt() {
 		fm.buildModeBasic()
 	case "full":
 		fm.buildModeFull()
-	case "full+":
-		fm.buildModeFullplus()
 	default:
 		fmt.Println("El modo seleccionado no es correcto. Puede elegir entre BASIC / FULL / FULL+")
 	}
@@ -118,6 +116,8 @@ func (fm *FileMaker) selectTemplate(template string) {
 		fm.TemplateSelected = fm.Templates.Feature()
 	case "route":
 		fm.TemplateSelected = fm.Templates.Route()
+	case "view":
+		fm.TemplateSelected = fm.Templates.View()
 	default:
 		fm.TemplateSelected = ""
 	}
@@ -174,11 +174,6 @@ func (fm *FileMaker) buildModeFull() {
 	fm.buildModeBasic()
 	fm.selectTemplate("view")
 	fm.builder("views", "templ", true)
-}
-
-func (fm *FileMaker) buildModeFullplus() {
-
-	fm.buildModeFull()
 	// menu
 	fm.selectFullTemplate("menu")
 	fm.builder("views/menus", "templ", true)
