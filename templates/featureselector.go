@@ -75,7 +75,7 @@ func Create$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	}
 
 	$FL$ := models.New$SC$()
-	$FL$.Create(tapp.App.DB.Primary, $FL$DTO.Name)
+	$FL$.Create(tapp.App.DB.Primary, $FL$DTO)
 
 	return ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
@@ -90,9 +90,7 @@ func Update$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	}
 
 	$FL$ := models.New$SC$()
-	$FL$.Name = strings.ToLower($FL$DTO.Name)
-
-	$FL$.Update(tapp.App.DB.Primary, id, $FL$.Name)
+	$FL$.Update(tapp.App.DB.Primary, id, $FL$DTO)
 
 	return ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }

@@ -18,12 +18,8 @@ import (
 
 type $SC$ struct {
 	gorm.Model
-`
-	template += "	Name string `json:\"name\" param:\"name\" query:\"name\" form:\"name\"`"
-
-	template += `
+	Name string
 }
-
 type $SC$DTO struct {
 `
 	template += "	Name string `json:\"name\" param:\"name\" query:\"name\" form:\"name\"`"
@@ -84,16 +80,18 @@ func ($FL$ *$SC$) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage int) 
 	return &$PL$, nil
 }
 
-func ($FL$ *$SC$) Create(db *gorm.DB, name string) (*$SC$, error) {
+func ($FL$ *$SC$) Create(db *gorm.DB, dto $SC$DTO) (*$SC$, error) {
+	$FL$.SatinizeDTOCreate(&dto)
 	$SL$ := $SC${
-		Name: name,
+		Name: dto.Name,
 	}
 	db.Create(&$SL$)
 	return &$SL$, nil
 }
 
-func ($FL$ *$SC$) Update(db *gorm.DB, id int, name string) (*$SC$, error) {
-	db.Model(&$SC${}).Where("ID =?", id).Update("name", name)
+func ($FL$ *$SC$) Update(db *gorm.DB, id int, dto $SC$DTO) (*$SC$, error) {
+	$FL$.SatinizeDTOUpdate(&dto)
+	db.Model(&$SC${}).Where("ID =?", id).Update("name", dto.Name)
 	return $FL$, nil
 }
 
@@ -109,6 +107,16 @@ func ($FL$ *$SC$) Delete(db *gorm.DB, id int) (*$SC$, error) {
 func ($FL$ *$SC$) GetIDAsString() string {
 	return fmt.Sprintf("%d", $FL$.ID)
 }	
+
+func ($FL$ *$SC$) SatinizeDTOCreate(dto *$SC$DTO) error {
+	// TODO
+	return nil
+}
+
+func ($FL$ *$SC$) SatinizeDTOUpdate(dto *$SC$DTO) error {
+	// TODO
+	return nil
+}
 	`
 	return t.Replacements.Replace(template)
 
