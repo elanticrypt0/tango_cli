@@ -17,6 +17,7 @@ import (
 )
 
 const $PL$Pagination = false
+const $PL$PaginationItemsPerPage = 15
 
 func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(ctx.Param("id"))
@@ -38,7 +39,8 @@ func FindAll$PC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 		}
 	
 		// total de registros en la db
-		// counter, _ := $FL$.Count(tapp.App.DB.Primary)
+		// counter, _ := c.Count(tapp.App.DB.Primary)
+		// pagination := pagination.NewPagination(currentPage,categoriesPaginationItemsPerPage,counter)
 	
 		$FL$Buf, _ = $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
 	}else{
