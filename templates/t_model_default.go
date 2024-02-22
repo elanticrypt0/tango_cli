@@ -61,7 +61,7 @@ func ($FL$ *$SC$) FindOne(db *gorm.DB, id int) (*$SC$, error) {
 	return &$SL$, nil
 }
 
-func ($FL$ *$SC$) FindAll(db *gorm.DB) ([]$SC$, error) {
+func ($FL$ *$SC$) FindAll(db *gorm.DB) (*[]$SC$, error) {
 	var $PL$ []$SC$
 	db.Order("created_at ASC").Find(&$PL$)
 	if len($PL$) <= 0 {
@@ -71,7 +71,7 @@ func ($FL$ *$SC$) FindAll(db *gorm.DB) ([]$SC$, error) {
 			Message:   tango_errors.MsgZeroRecordsFound(),
 		}
 	}
-	return $PL$, nil
+	return &$PL$, nil
 }
 
 func ($FL$ *$SC$) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage int) (*[]$SC$, error) {

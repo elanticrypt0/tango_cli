@@ -10,13 +10,13 @@ package features
 import (
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/k23dev/tango/app/models"
 	"github.com/k23dev/tango/pkg/webcore"
 	"github.com/labstack/echo/v4"
 )
 
+const $PL$Pagination = false
 
 func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(ctx.Param("id"))
@@ -27,18 +27,23 @@ func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 }
 
 func FindAll$PC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	queryPage := ctx.Param("page")
-	currentPage:= 0
-	if queryPage != "" {
-		currentPage, _ = strconv.Atoi(queryPage)
-	}
-
+	var $FL$Buf *[]models.$SC$
 	$FL$ := models.New$SC$()
-	
-	// total de registros en la db
-	// counter, _ := $FL$.Count(tapp.App.DB.Primary)
 
-	$FL$Buf, _ := $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
+	if $PL$Pagination==true{
+		queryPage := ctx.Param("page")
+		currentPage:= 0
+		if queryPage != "" {
+			currentPage, _ = strconv.Atoi(queryPage)
+		}
+	
+		// total de registros en la db
+		// counter, _ := $FL$.Count(tapp.App.DB.Primary)
+	
+		$FL$Buf, _ = $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
+	}else{
+		$FL$Buf, _ = $FL$.FindAll(tapp.App.DB.Primary)
+	}
 
 	return ctx.JSON(http.StatusOK,$FL$Buf)
 
@@ -52,9 +57,13 @@ func Create$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	}
 
 	$FL$ := models.New$SC$()
-	$FL$.Create(tapp.App.DB.Primary, $FL$DTO)
+	$FL$Buf,err:= $FL$.Create(tapp.App.DB.Primary, $FL$DTO)
 
-	return ctx.JSON(http.StatusOK, $FL$.ConvertToDTO)
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	return ctx.JSON(http.StatusCreated, $FL$Buf.ConvertToDTO())
 }
 
 func Update$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
@@ -67,17 +76,25 @@ func Update$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	}
 
 	$FL$ := models.New$SC$()
-	$FL$.Update(tapp.App.DB.Primary, id, $FL$DTO)
+	$FL$Buf, err:=$FL$.Update(tapp.App.DB.Primary, id, $FL$DTO)
 
-	return ctx.JSON(http.StatusOK, $FL$DTO)
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	return ctx.JSON(http.StatusOK, $FL$Buf.ConvertToDTO())
 }
 
 func Delete$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(ctx.Param("id"))
 	$FL$ := models.New$SC$()
-	$FL$.Delete(tapp.App.DB.Primary, id)
+	$FL$Buf,err:=$FL$.Delete(tapp.App.DB.Primary, id)
+	
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, err)
+	}
 
-	return ctx.JSON(http.StatusOK, $FL$.ConvertToDTO)
+	return ctx.JSON(http.StatusOK, $FL$Buf.ConvertToDTO())
 }
 	`
 	return t.Replacements.Replace(template)
