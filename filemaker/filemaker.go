@@ -53,7 +53,7 @@ func (fm *FileMaker) setFilename(filename string) {
 
 func (fm *FileMaker) SetRootPath(path string) {
 	if path != "" {
-		fm.RootPath = path + "/"
+		fm.RootPath = path
 		return
 	}
 
@@ -97,6 +97,8 @@ func (fm *FileMaker) MakeIt() {
 		fm.buildModeFull()
 	case "fullwithselector":
 		fm.buildModeFullWithSelector()
+	case "model":
+		fm.buildModeModel()
 	default:
 		fmt.Println("El modo seleccionado no es correcto. Puede elegir entre BASIC / FULL / FULL+")
 	}
@@ -139,6 +141,8 @@ func (fm *FileMaker) selectTemplate(template string) {
 		fm.TemplateSelected = fm.Templates.FeatureAPI()
 	case "feature":
 		fm.TemplateSelected = fm.Templates.Feature()
+	case "route_api":
+		fm.TemplateSelected = fm.Templates.RouteAPI()
 	case "route":
 		fm.TemplateSelected = fm.Templates.Route()
 	case "view":
@@ -205,13 +209,19 @@ func (fm *FileMaker) builderWithFilenameFixes(directory, prefix, posfix, extensi
 	}
 }
 
+func (fm *FileMaker) buildModeModel() {
+	// todo
+	fm.selectTemplate("model")
+	fm.builder("models", "go", false)
+}
+
 func (fm *FileMaker) buildModeAPI() {
 	// todo
 	fm.selectTemplate("model")
 	fm.builder("models", "go", false)
 	fm.selectTemplate("feature_api")
 	fm.builder("features", "go", true)
-	fm.selectTemplate("route")
+	fm.selectTemplate("route_api")
 	fm.builder("routes", "go", true)
 }
 

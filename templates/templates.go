@@ -43,11 +43,13 @@ func (t *Templates) LoadTemplatesFiles() {
 	// tf.Fn = models_default(t)
 
 	t.Files["models"] = append(t.Files["models"], "default")
+	t.Files["models"] = append(t.Files["models"], "api")
 	// tf.Name = "templ"
 	// tf.Fn = models_default
 	// t.Files["models"] = append(t.Files["models"], *tf)
 	//  features
 	t.Files["features"] = append(t.Files["features"], "default")
+	t.Files["features"] = append(t.Files["features"], "api")
 	t.Files["features"] = append(t.Files["features"], "selector")
 	t.Files["features"] = append(t.Files["features"], "api")
 	// views
@@ -55,6 +57,7 @@ func (t *Templates) LoadTemplatesFiles() {
 	t.Files["views"] = append(t.Files["views"], "selector")
 	// routes
 	t.Files["routes"] = append(t.Files["routes"], "default")
+	t.Files["routes"] = append(t.Files["routes"], "api")
 
 }
 

@@ -22,7 +22,7 @@ type $SC$ struct {
 }
 type $SC$DTO struct {
 `
-	template += "	ID uint `json:\"id\" param:\"id\" query:\"id\" form:\"id\"`"
+	template += "	ID uint `json:\"id\" param:\"id\" query:\"id\" form:\"id\"` \n"
 	template += "	Name string `json:\"name\" param:\"name\" query:\"name\" form:\"name\"`"
 	template += `
 }
@@ -37,8 +37,8 @@ func New$SC$() *$SC$ {
 
 func ($FL$ *$SC$) ConvertToDTO() *$SC$DTO {
 	return &$SC$DTO{
-		ID:   c.ID,
-		Name: c.Name,
+		ID:   $FL$.ID,
+		Name: $FL$.Name,
 	}
 }
 
