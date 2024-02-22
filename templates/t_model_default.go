@@ -100,7 +100,8 @@ func ($FL$ *$SC$) Create(db *gorm.DB, dto $SC$DTO) (*$SC$, error) {
 func ($FL$ *$SC$) Update(db *gorm.DB, id int, dto $SC$DTO) (*$SC$, error) {
 	$FL$.SatinizeDTOUpdate(&dto)
 	db.Model(&$SC${}).Where("ID =?", id).Update("name", dto.Name)
-	return $FL$, nil
+	$FL$Buf, _ := $FL$.FindOne(db,id)
+	return $FL$Buf, nil
 }
 
 func ($FL$ *$SC$) Delete(db *gorm.DB, id int) (*$SC$, error) {
