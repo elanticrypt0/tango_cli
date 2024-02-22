@@ -23,7 +23,10 @@ func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(ctx.Param("id"))
 
 	$FL$ := models.New$SC$()
-	$SL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
+	$SL$, err := $FL$.FindOne(tapp.App.DB.Primary, id)
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound, err)
+	}
 	return ctx.JSON(http.StatusOK,$SL$.ConvertToDTO())
 }
 
