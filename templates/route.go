@@ -15,12 +15,12 @@ import (
 func $PL$Routes(tapp *webcore.TangoApp, rootPath *echo.Group) {
 	$PL$ := rootPath.Group("/$PL$/")
 
-	$PL$.GET("", func(ctx echo.Context) error {
-		return features.FindAll$PC$(ctx, tapp)
-	})
-
 	$PL$.GET(":id", func(ctx echo.Context) error {
 		return features.FindOne$SC$(ctx, tapp)
+	})
+
+	$PL$.GET("", func(ctx echo.Context) error {
+		return features.FindAll$PC$(ctx, tapp)
 	})
 
 	$PL$.GET("new", func(ctx echo.Context) error {

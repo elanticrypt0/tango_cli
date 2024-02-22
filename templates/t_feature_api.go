@@ -24,7 +24,7 @@ func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 
 	$FL$ := models.New$SC$()
 	$SL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
-	return ctx.JSON(http.StatusOK,$SL$.ConvertToDTO)
+	return ctx.JSON(http.StatusOK,$SL$.ConvertToDTO())
 }
 
 func FindAll$PC$(ctx echo.Context, tapp *webcore.TangoApp) error {
