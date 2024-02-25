@@ -43,9 +43,9 @@ func FindAll$PC$(ctx echo.Context, tapp *webcore.TangoApp) error {
 	
 		// total de registros en la db
 		// counter, _ := c.Count(tapp.App.DB.Primary)
-		// pagination := pagination.NewPagination(currentPage,categoriesPaginationItemsPerPage,counter)
+		// pagination := pagination.NewPagination(currentPage,$PL$PaginationItemsPerPage,counter)
 	
-		$FL$Buf, _ = $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
+		$FL$Buf, _ = $FL$.FindAllPagination(tapp.App.DB.Primary, $PL$PaginationItemsPerPage, currentPage)
 	}else{
 		$FL$Buf, _ = $FL$.FindAll(tapp.App.DB.Primary)
 	}

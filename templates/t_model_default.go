@@ -52,11 +52,7 @@ func ($FL$ *$SC$) FindOne(db *gorm.DB, id int) (*$SC$, error) {
 	var $SL$ $SC$
 	db.First(&$SL$, id)
 	if $SL$.ID == 0 {
-		return nil, &tango_errors.ModelError{
-			ModelName: "$SC$",
-			Code:      0,
-			Message:   tango_errors.MsgIDNotFound(id),
-		}
+		return nil, tango_errors.ReturnModel("$SC$", tango_errors.MsgNotFound(), 0)
 	}
 	return &$SL$, nil
 }
@@ -65,11 +61,7 @@ func ($FL$ *$SC$) FindAll(db *gorm.DB) (*[]$SC$, error) {
 	var $PL$ []$SC$
 	db.Order("created_at ASC").Find(&$PL$)
 	if len($PL$) <= 0 {
-		return nil, &tango_errors.ModelError{
-			ModelName: "$SC$",
-			Code:      0,
-			Message:   tango_errors.MsgZeroRecordsFound(),
-		}
+		return nil, tango_errors.ReturnModel("$SC$", tango_errors.MsgZeroRecordsFound(), 0)
 	}
 	return &$PL$, nil
 }
@@ -79,11 +71,7 @@ func ($FL$ *$SC$) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage int) 
 
 	db.Order("created_at ASC").Limit(itemsPerPage).Offset(itemsPerPage * currentPage).Find(&$PL$)
 	if len($PL$) <= 0 {
-		return nil, &tango_errors.ModelError{
-			ModelName: "$SC$",
-			Code:      0,
-			Message:   tango_errors.MsgZeroRecordsFound(),
-		}
+		return nil, tango_errors.ReturnModel("$SC$", tango_errors.MsgZeroRecordsFound(), 0)
 	}
 	return &$PL$, nil
 }
@@ -93,15 +81,28 @@ func ($FL$ *$SC$) Create(db *gorm.DB, dto $SC$DTO) (*$SC$, error) {
 	$SL$ := $SC${
 		Name: dto.Name,
 	}
-	db.Create(&$SL$)
+	result := db.Create(&$SL$)
+	if result.Error != nil {
+		return &$SC${}, result.Error
+	}
 	return &$SL$, nil
 }
 
 func ($FL$ *$SC$) Update(db *gorm.DB, id int, dto $SC$DTO) (*$SC$, error) {
-	$FL$.SatinizeDTOUpdate(&dto)
-	db.Model(&$SC${}).Where("ID =?", id).Update("name", dto.Name)
-	$FL$Buf, _ := $FL$.FindOne(db,id)
-	return $FL$Buf, nil
+	$FL$.satinizeDTOUpdate(&dto)
+
+	$SL$ := &$SC${}
+	db.First(user, "id=?", id)
+	if $SL$.ID == 0 {
+		return $SL$, tango_errors.ReturnModel("$SC$", tango_errors.MsgIDNotFound(id), 0)
+	}
+
+	// changes
+	$SL$.Name = dto.Name
+	$SL$.Email = dto.Email
+	
+	db.Save($SL$)
+	return $SL$, nil
 }
 
 func ($FL$ *$SC$) Delete(db *gorm.DB, id int) (*$SC$, error) {
@@ -119,11 +120,13 @@ func ($FL$ *$SC$) GetIDAsString() string {
 
 func ($FL$ *$SC$) SatinizeDTOCreate(dto *$SC$DTO) error {
 	// TODO
+	dto.Name = strings.TrimSpace(dto.Name)
 	return nil
 }
 
 func ($FL$ *$SC$) SatinizeDTOUpdate(dto *$SC$DTO) error {
 	// TODO
+	dto.Name = strings.TrimSpace(dto.Name)
 	return nil
 }
 	`
