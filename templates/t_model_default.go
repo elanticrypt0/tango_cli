@@ -77,7 +77,7 @@ func ($FL$ *$SC$) FindAllPagination(db *gorm.DB, itemsPerPage, currentPage int) 
 }
 
 func ($FL$ *$SC$) Create(db *gorm.DB, dto $SC$DTO) (*$SC$, error) {
-	$FL$.SatinizeDTOCreate(&dto)
+	$FL$.satinizeDTOCreate(&dto)
 	$SL$ := $SC${
 		Name: dto.Name,
 	}
@@ -92,14 +92,13 @@ func ($FL$ *$SC$) Update(db *gorm.DB, id int, dto $SC$DTO) (*$SC$, error) {
 	$FL$.satinizeDTOUpdate(&dto)
 
 	$SL$ := &$SC${}
-	db.First(user, "id=?", id)
+	db.First($SL$, "id=?", id)
 	if $SL$.ID == 0 {
 		return $SL$, tango_errors.ReturnModel("$SC$", tango_errors.MsgIDNotFound(id), 0)
 	}
 
 	// changes
 	$SL$.Name = dto.Name
-	$SL$.Email = dto.Email
 	
 	db.Save($SL$)
 	return $SL$, nil
@@ -118,13 +117,13 @@ func ($FL$ *$SC$) GetIDAsString() string {
 	return fmt.Sprintf("%d", $FL$.ID)
 }	
 
-func ($FL$ *$SC$) SatinizeDTOCreate(dto *$SC$DTO) error {
+func ($FL$ *$SC$) satinizeDTOCreate(dto *$SC$DTO) error {
 	// TODO
 	dto.Name = strings.TrimSpace(dto.Name)
 	return nil
 }
 
-func ($FL$ *$SC$) SatinizeDTOUpdate(dto *$SC$DTO) error {
+func ($FL$ *$SC$) satinizeDTOUpdate(dto *$SC$DTO) error {
 	// TODO
 	dto.Name = strings.TrimSpace(dto.Name)
 	return nil
