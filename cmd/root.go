@@ -165,7 +165,7 @@ func Execute() {
 
 func init() {
 
-	appBanner()
+	appBanner("0.9.1")
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
