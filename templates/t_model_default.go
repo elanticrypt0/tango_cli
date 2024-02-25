@@ -113,10 +113,6 @@ func ($FL$ *$SC$) Delete(db *gorm.DB, id int) (*$SC$, error) {
 	return $SL$, nil
 }
 
-func ($FL$ *$SC$) GetIDAsString() string {
-	return fmt.Sprintf("%d", $FL$.ID)
-}	
-
 func ($FL$ *$SC$) satinizeDTOCreate(dto *$SC$DTO) error {
 	// TODO
 	dto.Name = strings.TrimSpace(dto.Name)
