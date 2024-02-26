@@ -19,20 +19,20 @@ import (
 const $PL$Pagination = false
 const $PL$PaginationItemsPerPage = 15
 
-type $SC$Feature struct {
+type $PC$Feature struct {
 	ctx  echo.Context
 	tapp *webcore.TangoApp
 	DB *gorm.DB
 }
 
-func New$SC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *InteractFeature {
-	return &$SC$Feature{
+func New$PC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *InteractFeature {
+	return &$PC$Feature{
 		ctx:  ctx,
 		tapp: tapp,
 	}
 }
 
-func (f *$SL$Feature) FindOne() error {
+func (f *$PC$Feature) FindOne() error {
 	id, _ := strconv.Atoi(f.ctx.Param("id"))
 
 	$FL$ := models.New$SC$()
@@ -43,7 +43,7 @@ func (f *$SL$Feature) FindOne() error {
 	return f.ctx.JSON(http.StatusOK,$SL$.ConvertToDTO())
 }
 
-func (f *$SL$Feature) FindAll() error {
+func (f *$PC$Feature) FindAll() error {
 	var $FL$Buf *[]models.$SC$
 	$FL$ := models.New$SC$()
 
@@ -67,7 +67,7 @@ func (f *$SL$Feature) FindAll() error {
 
 }
 
-func (f *$SL$Feature) Create() error {
+func (f *$PC$Feature) Create() error {
 	// get the incoming values
 	$FL$DTO := models.$SC$DTO{}
 	if err := f.ctx.Bind(&$FL$DTO); err != nil {
@@ -84,7 +84,7 @@ func (f *$SL$Feature) Create() error {
 	return f.ctx.JSON(http.StatusCreated, $FL$Buf.ConvertToDTO())
 }
 
-func (f *$SL$Feature) Update() error {
+func (f *$PC$Feature) Update() error {
 	id, _ := strconv.Atoi(f.ctx.Param("id"))
 
 	// get the incoming values
@@ -103,7 +103,7 @@ func (f *$SL$Feature) Update() error {
 	return f.ctx.JSON(http.StatusOK, $FL$Buf.ConvertToDTO())
 }
 
-func (f *$SL$Feature) Delete() error {
+func (f *$PC$Feature) Delete() error {
 	id, _ := strconv.Atoi(f.ctx.Param("id"))
 	$FL$ := models.New$SC$()
 	$FL$Buf,err:=$FL$.Delete(f.tapp.App.DB.Primary, id)

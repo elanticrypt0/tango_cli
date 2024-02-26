@@ -20,20 +20,20 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type $SC$Feature struct {
+type $PC$Feature struct {
 	ctx  echo.Context
 	tapp *webcore.TangoApp
 	DB *gorm.DB
 }
 
-func New$SC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *InteractFeature {
-	return &$SC$Feature{
+func New$PC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *InteractFeature {
+	return &$PC$Feature{
 		ctx:  ctx,
 		tapp: tapp,
 	}
 }
 
-func (f *$SC$Feature) FindOne(ctx echo.Context, tapp *webcore.TangoApp) error {
+func (f *$PC$Feature) FindOne(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(f.ctx.Param("id"))
 
 	$FL$ := models.New$SC$()
@@ -45,7 +45,7 @@ func (f *$SC$Feature) FindOne(ctx echo.Context, tapp *webcore.TangoApp) error {
 	}
 }
 
-func (f *$SC$Feature) FindAll(ctx echo.Context, tapp *webcore.TangoApp) error {
+func (f *$PC$Feature) FindAll(ctx echo.Context, tapp *webcore.TangoApp) error {
 	queryPage := f.ctx.Param("page")
 	var currentPage = 0
 	if queryPage != "" {
@@ -65,7 +65,7 @@ func (f *$SC$Feature) FindAll(ctx echo.Context, tapp *webcore.TangoApp) error {
 
 }
 
-func (f *$SC$Feature) ShowForm(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
+func (f *$PC$Feature) ShowForm(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 	$FL$ := models.New$SC$()
 
 	if is_new {
@@ -77,7 +77,7 @@ func (f *$SC$Feature) ShowForm(ctx echo.Context, tapp *webcore.TangoApp, is_new 
 	}
 }
 
-func (f *$SC$Feature) Create(ctx echo.Context, tapp *webcore.TangoApp) error {
+func (f *$PC$Feature) Create(ctx echo.Context, tapp *webcore.TangoApp) error {
 	// get the incoming values
 	$FL$DTO := models.$SC$DTO{}
 	if err := f.ctx.Bind(&$FL$DTO); err != nil {
@@ -90,7 +90,7 @@ func (f *$SC$Feature) Create(ctx echo.Context, tapp *webcore.TangoApp) error {
 	return f.ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 
-func (f *$SC$Feature) Update(ctx echo.Context, tapp *webcore.TangoApp) error {
+func (f *$PC$Feature) Update(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(f.ctx.Param("id"))
 
 	// get the incoming values
@@ -105,7 +105,7 @@ func (f *$SC$Feature) Update(ctx echo.Context, tapp *webcore.TangoApp) error {
 	return f.ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 
-func (f *$SC$Feature) Delete(ctx echo.Context, tapp *webcore.TangoApp) error {
+func (f *$PC$Feature) Delete(ctx echo.Context, tapp *webcore.TangoApp) error {
 	id, _ := strconv.Atoi(f.ctx.Param("id"))
 	$FL$ := models.New$SC$()
 	$FL$.Delete(f.tapp.App.DB.Primary, id)
