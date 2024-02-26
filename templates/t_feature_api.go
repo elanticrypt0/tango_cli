@@ -25,7 +25,7 @@ type $PC$Feature struct {
 	DB *gorm.DB
 }
 
-func New$PC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *InteractFeature {
+func New$PC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *$PC$Feature {
 	return &$PC$Feature{
 		ctx:  ctx,
 		tapp: tapp,
