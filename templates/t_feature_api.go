@@ -20,15 +20,15 @@ type $PC$Feature struct {
 	ctx  echo.Context
 	tapp *webcore.TangoApp
 	db *gorm.DB
-	Pagination bool
+	HasPagination bool
 	PaginationItemsPerPage int
 }
 
 func New$PC$Feature(tapp *webcore.TangoApp) *$PC$Feature {
 	return &$PC$Feature{
 		tapp: tapp,
+		HasPagination:false
 		PaginationItemsPerPage:15
-		Pagination:false
 	}
 }
 
@@ -55,7 +55,7 @@ func (f *$PC$Feature) FindAll() error {
 	var $FL$Buf *[]models.$SC$
 	$FL$ := models.New$SC$()
 
-	if f.Pagination==true{
+	if f.HasPagination{
 		queryPage := f.ctx.Param("page")
 		currentPage:= 0
 		if queryPage != "" {
