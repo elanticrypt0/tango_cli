@@ -16,31 +16,38 @@ func $PL$Routes(tapp *webcore.TangoApp, rootPath *echo.Group) {
 	$PL$ := rootPath.Group("/$PL$/")
 
 	$PL$.GET(":id", func(ctx echo.Context) error {
-		return features.FindOne$SC$(ctx, tapp)
+		f:=features.New$SC$Feature(ctx,tapp)
+		return f.FindOne()
 	})
 
 	$PL$.GET("", func(ctx echo.Context) error {
-		return features.FindAll$PC$(ctx, tapp)
+		f:=features.New$SC$Feature(ctx,tapp)
+		return f.FindAll()
 	})
 
 	$PL$.GET("new", func(ctx echo.Context) error {
-		return features.ShowForm$SC$(ctx, tapp, true)
+		f:=features.New$SC$Feature(ctx,tapp)
+		return f.ShowForm(, true)
 	})
 
 	$PL$.GET("edit/:id", func(ctx echo.Context) error {
-		return features.ShowForm$SC$(ctx, tapp, false)
+		f:=features.New$SC$Feature(ctx,tapp)
+		return f.ShowForm(, false)
 	})
 
 	$PL$.POST("create", func(ctx echo.Context) error {
-		return features.Create$SC$(ctx, tapp)
+		f:=features.New$SC$Feature(ctx,tapp)
+		return featufres.Create()
 	})
 
 	$PL$.POST("update/:id", func(ctx echo.Context) error {
-		return features.Update$SC$(ctx, tapp)
+		f:=features.New$SC$Feature(ctx,tapp)
+		return f.Update()
 	})
 
 	$PL$.GET("delete/:id", func(ctx echo.Context) error {
-		return features.Delete$SC$(ctx, tapp)
+		f:=features.New$SC$Feature(ctx,tapp)
+		return f.Delete()
 	})
 }
 	`

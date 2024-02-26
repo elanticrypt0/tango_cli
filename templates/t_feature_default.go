@@ -20,85 +20,97 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type $SC$Feature struct {
+	ctx  echo.Context
+	tapp *webcore.TangoApp
+	DB *gorm.DB
+}
 
-func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(ctx.Param("id"))
-
-	$FL$ := models.New$SC$()
-	$SL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
-	if $SL$ != nil {
-		return utils.Render(ctx, views.$PC$ShowOne(tapp.GetTitleAndVersion(), *$SL$))
-	} else {
-		return ctx.Redirect(http.StatusMovedPermanently, "/404")
+func New$SC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *InteractFeature {
+	return &$SC$Feature{
+		ctx:  ctx,
+		tapp: tapp,
 	}
 }
 
-func FindAll$PC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	queryPage := ctx.Param("page")
+func (f *$SC$Feature) FindOne(ctx echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(f.ctx.Param("id"))
+
+	$FL$ := models.New$SC$()
+	$SL$, _ := $FL$.FindOne(f.tapp.App.DB.Primary, id)
+	if $SL$ != nil {
+		return utils.Render(ctx, views.$PC$ShowOne(f.tapp.GetTitleAndVersion(), *$SL$))
+	} else {
+		return f.ctx.Redirect(http.StatusMovedPermanently, "/404")
+	}
+}
+
+func (f *$SC$Feature) FindAll(ctx echo.Context, tapp *webcore.TangoApp) error {
+	queryPage := f.ctx.Param("page")
 	var currentPage = 0
 	if queryPage != "" {
 		currentPage, _ = strconv.Atoi(queryPage)
 	}
 
 	$FL$ := models.New$SC$()
-	counter, _ := $FL$.Count(tapp.App.DB.Primary)
+	counter, _ := $FL$.Count(f.tapp.App.DB.Primary)
 	pagination := pagination.NewPagination(currentPage, itemsPerPage, counter)
-	$FL$Buf, _ := $FL$.FindAllPagination(tapp.App.DB.Primary, itemsPerPage, currentPage)
+	$FL$Buf, _ := $FL$.FindAllPagination(f.tapp.App.DB.Primary, itemsPerPage, currentPage)
 
 	if $FL$Buf != nil {
-		return utils.Render(ctx, views.$PC$ShowList(tapp.GetTitleAndVersion(), *$FL$Buf, *pagination))
+		return utils.Render(ctx, views.$PC$ShowList(f.tapp.GetTitleAndVersion(), *$FL$Buf, *pagination))
 	}else{
-		return utils.Render(ctx, views.$PC$ShowListEmpty(tapp.GetTitleAndVersion()))
+		return utils.Render(ctx, views.$PC$ShowListEmpty(f.tapp.GetTitleAndVersion()))
 	}
 
 }
 
-func ShowForm$SC$(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
+func (f *$SC$Feature) ShowForm(ctx echo.Context, tapp *webcore.TangoApp, is_new bool) error {
 	$FL$ := models.New$SC$()
 
 	if is_new {
-		return utils.Render(ctx, views.$PC$FormCreate(tapp.GetTitleAndVersion()))
+		return utils.Render(ctx, views.$PC$FormCreate(f.tapp.GetTitleAndVersion()))
 	} else {
-		id, _ := strconv.Atoi(ctx.Param("id"))
-		$FL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
-		return utils.Render(ctx, views.$PC$FormUpdate(tapp.GetTitleAndVersion(), $FL$))
+		id, _ := strconv.Atoi(f.ctx.Param("id"))
+		$FL$, _ := $FL$.FindOne(f.tapp.App.DB.Primary, id)
+		return utils.Render(ctx, views.$PC$FormUpdate(f.tapp.GetTitleAndVersion(), $FL$))
 	}
 }
 
-func Create$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
+func (f *$SC$Feature) Create(ctx echo.Context, tapp *webcore.TangoApp) error {
 	// get the incoming values
 	$FL$DTO := models.$SC$DTO{}
-	if err := ctx.Bind(&$FL$DTO); err != nil {
-		return ctx.String(http.StatusBadRequest, "Bad request")
+	if err := f.ctx.Bind(&$FL$DTO); err != nil {
+		return f.ctx.String(http.StatusBadRequest, "Bad request")
 	}
 
 	$FL$ := models.New$SC$()
-	$FL$.Create(tapp.App.DB.Primary, $FL$DTO)
+	$FL$.Create(f.tapp.App.DB.Primary, $FL$DTO)
 
-	return ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
+	return f.ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 
-func Update$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(ctx.Param("id"))
+func (f *$SC$Feature) Update(ctx echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(f.ctx.Param("id"))
 
 	// get the incoming values
 	$FL$DTO := models.$SC$DTO{}
-	if err := ctx.Bind(&$FL$DTO); err != nil {
-		return ctx.String(http.StatusBadRequest, "Bad request")
+	if err := f.ctx.Bind(&$FL$DTO); err != nil {
+		return f.ctx.String(http.StatusBadRequest, "Bad request")
 	}
 
 	$FL$ := models.New$SC$()
-	$FL$.Update(tapp.App.DB.Primary, id, $FL$DTO)
+	$FL$.Update(f.tapp.App.DB.Primary, id, $FL$DTO)
 
-	return ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
+	return f.ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 
-func Delete$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(ctx.Param("id"))
+func (f *$SC$Feature) Delete(ctx echo.Context, tapp *webcore.TangoApp) error {
+	id, _ := strconv.Atoi(f.ctx.Param("id"))
 	$FL$ := models.New$SC$()
-	$FL$.Delete(tapp.App.DB.Primary, id)
+	$FL$.Delete(f.tapp.App.DB.Primary, id)
 
-	return ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
+	return f.ctx.Redirect(http.StatusMovedPermanently, "/$PL$/")
 }
 	`
 	return t.Replacements.Replace(template)

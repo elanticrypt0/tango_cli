@@ -19,87 +19,100 @@ import (
 const $PL$Pagination = false
 const $PL$PaginationItemsPerPage = 15
 
-func FindOne$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(ctx.Param("id"))
-
-	$FL$ := models.New$SC$()
-	$SL$, err := $FL$.FindOne(tapp.App.DB.Primary, id)
-	if err != nil {
-		return ctx.JSON(http.StatusNotFound, err)
-	}
-	return ctx.JSON(http.StatusOK,$SL$.ConvertToDTO())
+type $SC$Feature struct {
+	ctx  echo.Context
+	tapp *webcore.TangoApp
+	DB *gorm.DB
 }
 
-func FindAll$PC$(ctx echo.Context, tapp *webcore.TangoApp) error {
+func New$SC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *InteractFeature {
+	return &$SC$Feature{
+		ctx:  ctx,
+		tapp: tapp,
+	}
+}
+
+func (f *$SL$Feature) FindOne() error {
+	id, _ := strconv.Atoi(f.ctx.Param("id"))
+
+	$FL$ := models.New$SC$()
+	$SL$, err := $FL$.FindOne(f.tapp.App.DB.Primary, id)
+	if err != nil {
+		return f.ctx.JSON(http.StatusNotFound, err)
+	}
+	return f.ctx.JSON(http.StatusOK,$SL$.ConvertToDTO())
+}
+
+func (f *$SL$Feature) FindAll() error {
 	var $FL$Buf *[]models.$SC$
 	$FL$ := models.New$SC$()
 
 	if $PL$Pagination==true{
-		queryPage := ctx.Param("page")
+		queryPage := f.ctx.Param("page")
 		currentPage:= 0
 		if queryPage != "" {
 			currentPage, _ = strconv.Atoi(queryPage)
 		}
 	
 		// total de registros en la db
-		// counter, _ := c.Count(tapp.App.DB.Primary)
+		// counter, _ := c.Count(f.tapp.App.DB.Primary)
 		// pagination := pagination.NewPagination(currentPage,$PL$PaginationItemsPerPage,counter)
 	
-		$FL$Buf, _ = $FL$.FindAllPagination(tapp.App.DB.Primary, $PL$PaginationItemsPerPage, currentPage)
+		$FL$Buf, _ = $FL$.FindAllPagination(f.tapp.App.DB.Primary, $PL$PaginationItemsPerPage, currentPage)
 	}else{
-		$FL$Buf, _ = $FL$.FindAll(tapp.App.DB.Primary)
+		$FL$Buf, _ = $FL$.FindAll(f.tapp.App.DB.Primary)
 	}
 
-	return ctx.JSON(http.StatusOK,$FL$Buf)
+	return f.ctx.JSON(http.StatusOK,$FL$Buf)
 
 }
 
-func Create$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
+func (f *$SL$Feature) Create() error {
 	// get the incoming values
 	$FL$DTO := models.$SC$DTO{}
-	if err := ctx.Bind(&$FL$DTO); err != nil {
-		return ctx.JSON(http.StatusBadRequest, "")
+	if err := f.ctx.Bind(&$FL$DTO); err != nil {
+		return f.ctx.JSON(http.StatusBadRequest, "")
 	}
 
 	$FL$ := models.New$SC$()
-	$FL$Buf,err:= $FL$.Create(tapp.App.DB.Primary, $FL$DTO)
+	$FL$Buf,err:= $FL$.Create(f.tapp.App.DB.Primary, $FL$DTO)
 
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, err)
+		return f.ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	return ctx.JSON(http.StatusCreated, $FL$Buf.ConvertToDTO())
+	return f.ctx.JSON(http.StatusCreated, $FL$Buf.ConvertToDTO())
 }
 
-func Update$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(ctx.Param("id"))
+func (f *$SL$Feature) Update() error {
+	id, _ := strconv.Atoi(f.ctx.Param("id"))
 
 	// get the incoming values
 	$FL$DTO := models.$SC$DTO{}
-	if err := ctx.Bind(&$FL$DTO); err != nil {
-		return ctx.JSON(http.StatusBadRequest, "")
+	if err := f.ctx.Bind(&$FL$DTO); err != nil {
+		return f.ctx.JSON(http.StatusBadRequest, "")
 	}
 
 	$FL$ := models.New$SC$()
-	$FL$Buf, err:=$FL$.Update(tapp.App.DB.Primary, id, $FL$DTO)
+	$FL$Buf, err:=$FL$.Update(f.tapp.App.DB.Primary, id, $FL$DTO)
 
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, err)
+		return f.ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	return ctx.JSON(http.StatusOK, $FL$Buf.ConvertToDTO())
+	return f.ctx.JSON(http.StatusOK, $FL$Buf.ConvertToDTO())
 }
 
-func Delete$SC$(ctx echo.Context, tapp *webcore.TangoApp) error {
-	id, _ := strconv.Atoi(ctx.Param("id"))
+func (f *$SL$Feature) Delete() error {
+	id, _ := strconv.Atoi(f.ctx.Param("id"))
 	$FL$ := models.New$SC$()
-	$FL$Buf,err:=$FL$.Delete(tapp.App.DB.Primary, id)
+	$FL$Buf,err:=$FL$.Delete(f.tapp.App.DB.Primary, id)
 	
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, err)
+		return f.ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	return ctx.JSON(http.StatusOK, $FL$Buf.ConvertToDTO())
+	return f.ctx.JSON(http.StatusOK, $FL$Buf.ConvertToDTO())
 }
 	`
 	return t.Replacements.Replace(template)
