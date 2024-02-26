@@ -23,7 +23,7 @@ import (
 type $PC$Feature struct {
 	ctx  echo.Context
 	tapp *webcore.TangoApp
-	DB *gorm.DB
+	db *gorm.DB
 }
 
 func New$PC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *$PC$Feature {
@@ -31,6 +31,14 @@ func New$PC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *$PC$Feature {
 		ctx:  ctx,
 		tapp: tapp,
 	}
+}
+
+func (f *$PC$Feature) SetCtx(ctx echo.Context) {
+	f.ctx = ctx
+}
+
+func (f *$PC$Feature) SetDB(db *gorm.DB) {
+	f.db = db
 }
 
 func (f *$PC$Feature) FindOne(ctx echo.Context, tapp *webcore.TangoApp) error {

@@ -16,20 +16,28 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-const $PL$Pagination = false
-const $PL$PaginationItemsPerPage = 15
-
 type $PC$Feature struct {
 	ctx  echo.Context
 	tapp *webcore.TangoApp
-	DB *gorm.DB
+	db *gorm.DB
+	Pagination bool
+	PaginationItemsPerPage int
 }
 
-func New$PC$Feature(ctx echo.Context, tapp *webcore.TangoApp) *$PC$Feature {
+func New$PC$Feature(tapp *webcore.TangoApp) *$PC$Feature {
 	return &$PC$Feature{
-		ctx:  ctx,
 		tapp: tapp,
+		PaginationItemsPerPage:15
+		Pagination:false
 	}
+}
+
+func (f *$PC$Feature) SetCtx(ctx echo.Context) {
+	f.ctx = ctx
+}
+
+func (f *$PC$Feature) SetDB(db *gorm.DB) {
+	f.db = db
 }
 
 func (f *$PC$Feature) FindOne() error {
@@ -47,7 +55,7 @@ func (f *$PC$Feature) FindAll() error {
 	var $FL$Buf *[]models.$SC$
 	$FL$ := models.New$SC$()
 
-	if $PL$Pagination==true{
+	if f.Pagination==true{
 		queryPage := f.ctx.Param("page")
 		currentPage:= 0
 		if queryPage != "" {
@@ -56,9 +64,9 @@ func (f *$PC$Feature) FindAll() error {
 	
 		// total de registros en la db
 		// counter, _ := c.Count(f.tapp.App.DB.Primary)
-		// pagination := pagination.NewPagination(currentPage,$PL$PaginationItemsPerPage,counter)
+		// pagination := pagination.NewPagination(currentPage,f.PaginationItemsPerPage,counter)
 	
-		$FL$Buf, _ = $FL$.FindAllPagination(f.tapp.App.DB.Primary, $PL$PaginationItemsPerPage, currentPage)
+		$FL$Buf, _ = $FL$.FindAllPagination(f.tapp.App.DB.Primary, f.PaginationItemsPerPage, currentPage)
 	}else{
 		$FL$Buf, _ = $FL$.FindAll(f.tapp.App.DB.Primary)
 	}
