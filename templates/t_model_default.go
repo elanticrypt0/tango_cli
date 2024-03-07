@@ -42,6 +42,13 @@ func ($FL$ *$SC$) ConvertToDTO() *$SC$DTO {
 	}
 }
 
+func ($FL$ *$SC$) ConvertFromDTO(dto *$SC$DTO) *$SC$ {
+	return &$SC${
+		ID:   $FL$.ID,
+		Name: $FL$.Name,
+	}
+}
+
 func ($FL$ *$SC$) Count(db *gorm.DB) (int, error) {
 	counter := &$SC$Counter{}
 	db.Model(&$SC${}).Select("count(ID) as total").Find(&counter)

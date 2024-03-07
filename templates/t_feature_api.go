@@ -27,8 +27,8 @@ type $PC$Feature struct {
 func New$PC$Feature(tapp *webcore.TangoApp) *$PC$Feature {
 	return &$PC$Feature{
 		tapp: tapp,
-		HasPagination:false
-		PaginationItemsPerPage:15
+		HasPagination:false,
+		PaginationItemsPerPage:15,
 	}
 }
 
