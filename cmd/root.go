@@ -61,7 +61,7 @@ var createPackCmd = &cobra.Command{
 		fm = filemaker.New(packageName)
 
 		// PATH
-		fm.SetRootPath("")
+		fm.SetRootPath("./api/")
 		fm.SetAppDir("app")
 		// aca se define que se crea
 		fm.SetMode(templateSelected)
@@ -99,7 +99,7 @@ var createPackApiCmd = &cobra.Command{
 		fm = filemaker.New(packageName)
 
 		// PATH
-		fm.SetRootPath("./")
+		fm.SetRootPath("./api/")
 		fm.SetAppDir("app")
 		// aca se define que se crea
 		fm.SetMode(templateSelected)
@@ -138,7 +138,7 @@ var createModelCmd = &cobra.Command{
 		fm = filemaker.New(packageName)
 
 		// PATH
-		fm.SetRootPath("./")
+		fm.SetRootPath("./api/")
 		fm.SetAppDir("app")
 		// aca se define que se crea
 		fm.SetMode(templateSelected)
