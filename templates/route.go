@@ -12,7 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func $PL$Routes(tapp *webcore.TangoApp, rootPath *echo.Group) {
+func $PL$Routes(tapp *tangoapp.TangoApp, rootPath *echo.Group) {
 	$PL$ := rootPath.Group("/$PL$/")
 	feat:=features.New$PC$Feature(tapp)
 

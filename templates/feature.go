@@ -1,6 +1,6 @@
 package templates
 
-func (t *Templates) FeatureSelector() string {
+func (t *Templates) Feature() string {
 
 	t.setReplacements()
 
@@ -56,14 +56,12 @@ func FindAll$PC$(ctx echo.Context, tapp *tangoapp.TangoApp) error {
 func ShowForm$SC$(ctx echo.Context, tapp *tangoapp.TangoApp, is_new bool) error {
 	$FL$ := models.New$SC$()
 
-	list,_:=$FL$.FindAll(tapp.App.DB.Primary)
-
 	if is_new {
-		return utils.Render(ctx, views.$PC$FormCreate(tapp.GetTitleAndVersion(),&list))
+		return utils.Render(ctx, views.$PC$FormCreate(tapp.GetTitleAndVersion()))
 	} else {
 		id, _ := strconv.Atoi(ctx.Param("id"))
 		$FL$, _ := $FL$.FindOne(tapp.App.DB.Primary, id)
-		return utils.Render(ctx, views.$PC$FormUpdate(tapp.GetTitleAndVersion(), $FL$,&list))
+		return utils.Render(ctx, views.$PC$FormUpdate(tapp.GetTitleAndVersion(), $FL$))
 	}
 }
 

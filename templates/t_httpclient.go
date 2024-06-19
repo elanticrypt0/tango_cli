@@ -6,13 +6,22 @@ func (t *Templates) HttpClient() string {
 	template := `
 	class TangoClient {
 		baseUrl: string;
+		defaultBaseUrl:string = "http://localhost:9000/api/";
 	
-		constructor(baseUrl: string) {
-			this.baseUrl = baseUrl;
+		constructor(baseUrl?: string) {
+			if (baseUrl){
+				this.baseUrl = baseUrl;
+			}else{
+				this.baseUrl = this.defaultBaseUrl;
+			}
 		}
 	
 		async get(url: string): Promise<any> {
 			return this.sendRequest('GET', url);
+		}
+
+		async post(url: string, data?: any): Promise<any> {
+			return this.sendRequest('POST', url, data);
 		}
 	
 		async put(url: string, data?: any): Promise<any> {
@@ -35,8 +44,8 @@ func (t *Templates) HttpClient() string {
 	template += "	const response = await fetch(`${this.baseUrl}${url}`, {"
 	template += `
 				method: method,
-				headers: data instanceof FormData ? {} : { 'Content-Type': 'application/json' },
-				body: data
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data)
 			});
 			return await response.json();
 		}
@@ -50,6 +59,8 @@ func (t *Templates) HttpClient() string {
 			}
 		}
 	}
+
+	export default TangoClient;
 	
 	// Ejemplo de uso
 	/*

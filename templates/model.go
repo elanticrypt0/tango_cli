@@ -1,6 +1,6 @@
 package templates
 
-func models_default(t Templates) string {
+func (t *Templates) Model() string {
 
 	t.setReplacements()
 

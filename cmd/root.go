@@ -12,6 +12,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// the API folder
+const ROOTPATH = "./api/"
+const FRONTENDROOTPATH = "./frontend"
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "tango_cli",
@@ -58,7 +62,7 @@ var createPackCmd = &cobra.Command{
 		fm = filemaker.New(packageName)
 
 		// PATH
-		fm.SetRootPath("./api/")
+		fm.SetRootPath(ROOTPATH)
 		fm.SetAppDir("app")
 		// aca se define que se crea
 		fm.SetMode(templateSelected)
@@ -92,7 +96,7 @@ var createPackApiCmd = &cobra.Command{
 		fm = filemaker.New(packageName)
 
 		// PATH
-		fm.SetRootPath("./api/")
+		fm.SetRootPath(ROOTPATH)
 		fm.SetAppDir("app")
 		// aca se define que se crea
 		fm.SetMode(templateSelected)
@@ -127,7 +131,7 @@ var createModelCmd = &cobra.Command{
 		fm = filemaker.New(packageName)
 
 		// PATH
-		fm.SetRootPath("./api/")
+		fm.SetRootPath(ROOTPATH)
 		fm.SetAppDir("app")
 		// aca se define que se crea
 		fm.SetMode(templateSelected)
@@ -159,7 +163,7 @@ var createHttpClient = &cobra.Command{
 		fm = filemaker.New(packageName)
 
 		// PATH
-		fm.SetRootPath("./frontend")
+		fm.SetRootPath(FRONTENDROOTPATH)
 		fm.SetAppDir("")
 		// aca se define que se crea
 		fm.SetMode(templateSelected)
