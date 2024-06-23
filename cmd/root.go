@@ -5,27 +5,30 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
-	"tango_cli/filemaker"
-	"tango_cli/parser"
+	"tango_cli/pkg/cmdrunner"
+	"tango_cli/pkg/filemaker"
+	"tango_cli/pkg/parser"
 
 	"github.com/spf13/cobra"
 )
 
 // the API folder
-const ROOTPATH = "./api/"
-const FRONTENDROOTPATH = "./frontend"
+const APIPATH = "./api/"
+const FRONTENDROOTPATH = "/frontend"
+
+var cmdRunner = cmdrunner.New()
+
+// func init() {
+// cmdRunner.AppendToRootPath(APIPATH)
+// }
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "tango_cli",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "CLI to create CRUD or make a build for Tango",
+	Long:  `CLI to create CRUD or make a build for Tango`,
 }
 
 var createCmd = &cobra.Command{
@@ -39,104 +42,26 @@ var createCmd = &cobra.Command{
 	},
 }
 
-var createPackCmd = &cobra.Command{
-	Use:   "createPack",
-	Short: "Creación de archivos paquetes de features, models y routes",
-	Long:  `Crear paquetes features, models, views, Api`,
-	Run: func(cmd *cobra.Command, args []string) {
-
-		p := parser.New()
-		var fm *filemaker.FileMaker
-		var packageName string
-		var templateSelected string
-
-		if len(args) > 0 {
-			packageName = args[0]
-		}
-
-		if len(args) > 1 {
-			templateSelected = args[1]
-		}
-
-		p.Read(packageName)
-		fm = filemaker.New(packageName)
-
-		// PATH
-		fm.SetRootPath(ROOTPATH)
-		fm.SetAppDir("app")
-		// aca se define que se crea
-		fm.SetMode(templateSelected)
-		// modo forzado
-		fm.SetForcedMode(true)
-
-		// Creación
-		fmt.Println("Making: ", os.Args[1])
-		fmt.Println("Mode: ", os.Args[2])
-		fmt.Println("Execuit it!")
-		fm.MakeIt()
-	},
-}
-
 var createPackApiCmd = &cobra.Command{
-	Use:   "createPackApi",
+	Use:   "createapicrud",
 	Short: "Creación de archivos paquetes de features, models y routes",
-	Long:  `Crear paquetes features, models, views, Api`,
+	Long:  `Creación de archivos paquetes de features, models y routes`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		p := parser.New()
-		var fm *filemaker.FileMaker
-		var packageName string
+		var fm filemaker.FileMaker
+		var namespace string
 		var templateSelected string = "api"
 
 		if len(args) > 0 {
-			packageName = args[0]
+			namespace = args[0]
 		}
 
-		p.Read(packageName)
-		fm = filemaker.New(packageName)
-
-		// PATH
-		fm.SetRootPath(ROOTPATH)
-		fm.SetAppDir("app")
-		// aca se define que se crea
-		fm.SetMode(templateSelected)
-		// modo forzado
-		fm.SetForcedMode(true)
-
-		// Creación
-		fmt.Println("Making: ", os.Args[1])
-		fmt.Println("Mode: ", os.Args[2])
-		fmt.Println("Execuit it!")
-		fm.MakeIt()
-
-	},
-}
-
-var createModelCmd = &cobra.Command{
-	Use:   "createModel",
-	Short: "Crear modelos",
-	Long:  `Crear modelos`,
-	Run: func(cmd *cobra.Command, args []string) {
-
-		p := parser.New()
-		var fm *filemaker.FileMaker
-		var packageName string
-		var templateSelected string = "model"
-
-		if len(args) > 0 {
-			packageName = args[0]
-		}
-
-		p.Read(packageName)
-		fm = filemaker.New(packageName)
-
-		// PATH
-		fm.SetRootPath(ROOTPATH)
-		fm.SetAppDir("app")
-		// aca se define que se crea
-		fm.SetMode(templateSelected)
-		// modo forzado
-		fm.SetForcedMode(true)
+		p.Read(namespace)
+		fm = filemaker.New(cmdRunner.AppendToRootPath("/api"), "app", *p)
+		fm.SelectTemplate(templateSelected)
+		// forcemode=true will delete the files if exists
+		fm.SetForceMode(true)
 
 		// Creación
 		fmt.Println("Making: ", os.Args[1])
@@ -154,26 +79,112 @@ var createHttpClient = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		p := parser.New()
-		var fm *filemaker.FileMaker
+		var fm filemaker.FileMaker
 
-		packageName := "_tangoclient"
+		namespace := "_tangoclient"
 		templateSelected := "httpclient"
 
-		p.Read(packageName)
-		fm = filemaker.New(packageName)
+		p.Read(namespace)
+		fm = filemaker.New(cmdRunner.GetRootPath(), "frontend", *p)
+		fm.SelectTemplate(templateSelected)
+		// forcemode=true will delete the files if exists
+		fm.SetForceMode(true)
 
-		// PATH
-		fm.SetRootPath(FRONTENDROOTPATH)
-		fm.SetAppDir("")
-		// aca se define que se crea
-		fm.SetMode(templateSelected)
-		// modo forzado
-		fm.SetForcedMode(true)
+		// Creación
+		fmt.Println("Making: ", namespace)
+		fmt.Println("Mode: ", "forcedMode = true")
+		fmt.Println("Execuit it!")
+		fm.MakeIt()
+
+	},
+}
+
+var createModelCmd = &cobra.Command{
+	Use:   "createmodel",
+	Short: "Creación de archivo de modelo",
+	Long:  `Creación de archivo de modelo`,
+	Run: func(cmd *cobra.Command, args []string) {
+
+		p := parser.New()
+		var fm filemaker.FileMaker
+		var namespace string
+		var templateSelected string = "model"
+
+		if len(args) > 0 {
+			namespace = args[0]
+		}
+
+		p.Read(namespace)
+		fm = filemaker.New(cmdRunner.AppendToRootPath("/api"), "app", *p)
+		fm.SelectTemplate(templateSelected)
+		// forcemode=true will delete the files if exists
+		fm.SetForceMode(true)
 
 		// Creación
 		fmt.Println("Making: ", os.Args[1])
+		fmt.Println("Mode: ", os.Args[2])
 		fmt.Println("Execuit it!")
 		fm.MakeIt()
+
+	},
+}
+
+var showAppConfig = &cobra.Command{
+	Use:   "appconfig",
+	Short: "Muestra la configuracion de la app",
+	Long:  `Muestra la configuracion de la app`,
+	Run: func(cmd *cobra.Command, args []string) {
+
+		appconfig := cmdRunner.LoadAppConfig()
+		fmt.Printf("%+v\n", appconfig)
+
+	},
+}
+
+var makeBuild = &cobra.Command{
+	Use:   "build",
+	Short: "Crea el build de la app",
+	Long:  `Crea el build de la app`,
+	Run: func(cmd *cobra.Command, args []string) {
+
+		// TODO: agregar la opcion de compilar para diferentes plataformas.
+		appconfig := cmdRunner.LoadAppConfig()
+
+		// fmt.Printf("%+v\n", appconfig)
+
+		rootPath := cmdRunner.GetRootPath()
+		appnamePlusVersion := parseAppNameAndVersion(appconfig.Name, appconfig.Version)
+
+		fmt.Printf("%+v\n", appnamePlusVersion)
+		// tiene que crear la carpeta build
+		buildpath := rootPath + "/build/"
+		cmdRunner.Mkdir(buildpath)
+		// luego crear una carpeta con el nombre de app + version (app_version)
+		buildpath += appnamePlusVersion
+		cmdRunner.Mkdir(buildpath)
+		// logs, configuracion, public,cookies,uploads, _db
+		cmdRunner.Mkdir(buildpath + "/logs")
+		fmt.Printf("	> Creando la carpeta %s\n", "/logs")
+		cmdRunner.Mkdir(buildpath + "/_db")
+		fmt.Printf("	> Creando la carpeta %s\n", "/_db")
+		cmdRunner.Mkdir(buildpath + "/cookies")
+		fmt.Printf("	> Creando la carpeta %s\n", "/cookies")
+		cmdRunner.Mkdir(buildpath + "/uploads")
+		fmt.Printf("	> Creando la carpeta %s\n", "/uploads")
+		// err := cmdRunner.CopyAll()
+		err := cmdrunner.CopyDirectory(rootPath+"/api/config", buildpath+"/config")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		fmt.Printf("	> Copiando la carpeta %s\n", "/config")
+		// err = cmdRunner.CopyAll(rootPath+"/api/public", buildpath+"/public")
+		err = cmdrunner.CopyDirectory(rootPath+"/api/public", buildpath+"/public")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		fmt.Printf("	> Copiando la carpeta %s\n", "/public")
+		// crear el ejecutable
+		// dentro el ejecutable con el mismo nombre
 
 	},
 }
@@ -189,7 +200,7 @@ func Execute() {
 
 func init() {
 
-	appBanner("0.9.2")
+	appBanner("0.9.3")
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
@@ -200,8 +211,9 @@ func init() {
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.AddCommand(createCmd)
-	rootCmd.AddCommand(createPackCmd)
 	rootCmd.AddCommand(createPackApiCmd)
-	rootCmd.AddCommand(createModelCmd)
 	rootCmd.AddCommand(createHttpClient)
+	rootCmd.AddCommand(createModelCmd)
+	rootCmd.AddCommand(showAppConfig)
+	rootCmd.AddCommand(makeBuild)
 }
