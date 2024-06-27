@@ -5,7 +5,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"tango_cli/pkg/cmdrunner"
 	"tango_cli/pkg/filemaker"
@@ -149,43 +148,65 @@ var makeBuild = &cobra.Command{
 
 		// TODO: agregar la opcion de compilar para diferentes plataformas.
 		appconfig := cmdRunner.LoadAppConfig()
-
-		// fmt.Printf("%+v\n", appconfig)
-
-		rootPath := cmdRunner.GetRootPath()
 		appnamePlusVersion := parseAppNameAndVersion(appconfig.Name, appconfig.Version)
 
-		fmt.Printf("%+v\n", appnamePlusVersion)
-		// tiene que crear la carpeta build
-		buildpath := rootPath + "/build/"
-		cmdRunner.Mkdir(buildpath)
-		// luego crear una carpeta con el nombre de app + version (app_version)
-		buildpath += appnamePlusVersion
-		cmdRunner.Mkdir(buildpath)
-		// logs, configuracion, public,cookies,uploads, _db
-		cmdRunner.Mkdir(buildpath + "/logs")
-		fmt.Printf("	> Creando la carpeta %s\n", "/logs")
-		cmdRunner.Mkdir(buildpath + "/_db")
-		fmt.Printf("	> Creando la carpeta %s\n", "/_db")
-		cmdRunner.Mkdir(buildpath + "/cookies")
-		fmt.Printf("	> Creando la carpeta %s\n", "/cookies")
-		cmdRunner.Mkdir(buildpath + "/uploads")
-		fmt.Printf("	> Creando la carpeta %s\n", "/uploads")
-		// err := cmdRunner.CopyAll()
-		err := cmdrunner.CopyDirectory(rootPath+"/api/config", buildpath+"/config")
-		if err != nil {
-			log.Fatalln(err)
-		}
-		fmt.Printf("	> Copiando la carpeta %s\n", "/config")
-		// err = cmdRunner.CopyAll(rootPath+"/api/public", buildpath+"/public")
-		err = cmdrunner.CopyDirectory(rootPath+"/api/public", buildpath+"/public")
-		if err != nil {
-			log.Fatalln(err)
-		}
-		fmt.Printf("	> Copiando la carpeta %s\n", "/public")
-		// crear el ejecutable
-		// dentro el ejecutable con el mismo nombre
+		MakeBuild(appnamePlusVersion)
+	},
+}
 
+var remakeBuild = &cobra.Command{
+	Use:   "rebuild",
+	Short: "Recrea el build de la app",
+	Long:  `Recrea el build de la app`,
+	Run: func(cmd *cobra.Command, args []string) {
+
+		// TODO: agregar la opcion de compilar para diferentes plataformas.
+		appconfig := cmdRunner.LoadAppConfig()
+		appnamePlusVersion := parseAppNameAndVersion(appconfig.Name, appconfig.Version)
+
+		RemakeBuild(cmdRunner.GetRootPath(), appnamePlusVersion)
+		MakeBuild(appnamePlusVersion)
+		BuildLinux64Exe(cmdRunner.GetRootPath()+"/api", appnamePlusVersion)
+	},
+}
+
+var unBuild = &cobra.Command{
+	Use:   "unbuild",
+	Short: "Elimina el build de la version",
+	Long:  `Elimina el build de la version`,
+	Run: func(cmd *cobra.Command, args []string) {
+
+		// TODO: agregar la opcion de compilar para diferentes plataformas.
+		appconfig := cmdRunner.LoadAppConfig()
+		appnamePlusVersion := parseAppNameAndVersion(appconfig.Name, appconfig.Version)
+
+		RemakeBuild(cmdRunner.GetRootPath(), appnamePlusVersion)
+	},
+}
+
+var devApp = &cobra.Command{
+	Use:   "dev",
+	Short: "Start the application on DEV mode",
+	Long:  `Start the application on DEV mode`,
+	Run: func(cmd *cobra.Command, args []string) {
+
+		var input string
+		// TODO: agregar la opcion de compilar para diferentes plataformas.
+		// appconfig := cmdRunner.LoadAppConfig()
+		rootpath := cmdRunner.GetRootPath()
+		// cmdRunner.Run("go", "run", rootpath+"/api")
+		// go cmdRunner.Run("npm", "run", "astro", "dev")
+
+		go func() {
+			// fmt.Printf("API running in %s",api)
+			// Load appconfig and print the url of the api
+			go cmdRunner.Run("go", "run", rootpath+"/api")
+			// si tienen un frontend en astro entonces lo levanta
+			// if ...
+			// go cmd
+		}()
+		fmt.Scanln(&input)
+		// close command
 	},
 }
 
@@ -200,7 +221,7 @@ func Execute() {
 
 func init() {
 
-	appBanner("0.9.3")
+	appBanner("1.6.0")
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
@@ -216,4 +237,7 @@ func init() {
 	rootCmd.AddCommand(createModelCmd)
 	rootCmd.AddCommand(showAppConfig)
 	rootCmd.AddCommand(makeBuild)
+	rootCmd.AddCommand(remakeBuild)
+	rootCmd.AddCommand(unBuild)
+	rootCmd.AddCommand(devApp)
 }

@@ -10,7 +10,7 @@ package models
 import (
 	"strings"
 
-	"github.com/k23dev/tango/pkg/tango_errors"
+	"tango_pkg/tango_errors"
 	"gorm.io/gorm"
 )
 

@@ -8,7 +8,7 @@ import (
 	"tango_cli/pkg/parser"
 	"tango_cli/pkg/templates"
 
-	"github.com/k23dev/tango/pkg/tangoapp"
+	"tango_pkg/tangoapp"
 )
 
 type FileMaker struct {

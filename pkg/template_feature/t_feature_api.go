@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/k23dev/tango/app/models"
-	"github.com/k23dev/tango/pkg/tangoapp"
+	"tango_api/app/models"
+	"tango_pkg/tangoapp"
 	"github.com/labstack/echo/v4"
 )
 

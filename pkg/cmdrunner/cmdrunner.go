@@ -8,7 +8,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/k23dev/tango/pkg/tangoapp"
+	"tango_pkg/tangoapp"
 )
 
 // This run OS commands
