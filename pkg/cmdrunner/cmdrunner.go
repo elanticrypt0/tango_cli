@@ -99,14 +99,29 @@ func (cr *CmdRunner) RunWithOutput(name string, arg ...string) CmdOutput {
 	cmd.Stderr = &errb
 	err := cmd.Run()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err.Error())
+	}
+	return NewCmdOutput(outb.String(), errb.String())
+}
+
+func (cr *CmdRunner) RunSh(shpath string, arg ...string) CmdOutput {
+	cmd := exec.Command(shpath, arg...)
+	// capture the output or error
+	var outb, errb bytes.Buffer
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = &outb
+	cmd.Stderr = &errb
+	err := cmd.Run()
+	if err != nil {
+		log.Fatal(err.Error())
 	}
 	return NewCmdOutput(outb.String(), errb.String())
 }
 
 func (cr *CmdRunner) PWD() string {
-	output := cr.RunWithOutput("pwd")
-	pwd := strings.ReplaceAll(output.Output, "\n", "")
+	// output := cr.RunWithOutput("pwd")
+	// pwd := strings.ReplaceAll(output.Output, "\n", "")
+	pwd, _ := os.Getwd()
 	return pwd
 }
 

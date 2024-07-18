@@ -194,19 +194,37 @@ var devApp = &cobra.Command{
 		// TODO: agregar la opcion de compilar para diferentes plataformas.
 		// appconfig := cmdRunner.LoadAppConfig()
 		rootpath := cmdRunner.GetRootPath()
+		// appconfig := cmdRunner.LoadAppConfig()
 		// cmdRunner.Run("go", "run", rootpath+"/api")
 		// go cmdRunner.Run("npm", "run", "astro", "dev")
 
-		go func() {
-			// fmt.Printf("API running in %s",api)
-			// Load appconfig and print the url of the api
-			go cmdRunner.Run("go", "run", rootpath+"/api")
+		func() {
+			// renderiza los templates TEMPL
+			// RenderTemplSh(cmdRunner, rootpath)
+			cmdRunner.Run("go", "run", rootpath+"/api")
 			// si tienen un frontend en astro entonces lo levanta
 			// if ...
 			// go cmd
 		}()
 		fmt.Scanln(&input)
 		// close command
+	},
+}
+
+var AppRender = &cobra.Command{
+	Use:   "render",
+	Short: "Render the templ views",
+	Long:  `Render the templ views`,
+	Run: func(cmd *cobra.Command, args []string) {
+
+		rootpath := cmdRunner.GetRootPath()
+		appconfig := cmdRunner.LoadAppConfig()
+
+		if appconfig.UseTempl {
+			// TODO
+			// TemplRender(rootpath)
+			RenderTemplSh(cmdRunner, rootpath)
+		}
 	},
 }
 
@@ -240,4 +258,5 @@ func init() {
 	rootCmd.AddCommand(remakeBuild)
 	rootCmd.AddCommand(unBuild)
 	rootCmd.AddCommand(devApp)
+	rootCmd.AddCommand(AppRender)
 }
